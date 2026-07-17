@@ -10,4 +10,26 @@ public class BooksController {
     public String DashboardView(){
         return "index";
     }
+
+    @GetMapping("/books")
+    public String BooksView(){
+        return "books";
+    }
+
+    @GetMapping("/members")
+    public String MembersView(){
+        return "members";
+    }
+
+    @GetMapping("/loans")
+    public String LoansView(){
+        return "loans";
+    }
+
+    @GetMapping("/administration")
+    public String AdministrationView(){
+        return "administration";
+    }
+
+
 }
