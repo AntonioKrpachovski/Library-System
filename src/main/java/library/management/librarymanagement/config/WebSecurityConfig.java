@@ -23,14 +23,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/login", "/logout", "/register").permitAll()
-                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/").permitAll()//hasRole("Administrator")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/login?error")
                         .permitAll()
