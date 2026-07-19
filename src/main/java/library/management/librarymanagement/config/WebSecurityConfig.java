@@ -24,7 +24,8 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/logout", "/register").permitAll()
-                        .requestMatchers("/").permitAll()//hasRole("Administrator")
+                        .requestMatchers("/h2/**").permitAll()
+                        .requestMatchers("/administration/**").hasRole("Administrator")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -40,8 +41,7 @@ public class WebSecurityConfig {
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/access-denied")
                 )
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/datasets/*/analyze"));
-
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2/**"));
         return http.build();
     }
 

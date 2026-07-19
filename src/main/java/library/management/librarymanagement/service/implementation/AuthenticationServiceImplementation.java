@@ -5,16 +5,18 @@ import library.management.librarymanagement.model.exceptions.InvalidArgumentsExc
 import library.management.librarymanagement.model.exceptions.InvalidUserCredentialsException;
 import library.management.librarymanagement.repository.UserRepository;
 import library.management.librarymanagement.service.AuthenticationService;
-import lombok.Data;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-@Data
 public class AuthenticationServiceImplementation implements AuthenticationService {
-    private final UserRepository userRepository;
 
-    public AuthenticationServiceImplementation(UserRepository userRepository) {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthenticationServiceImplementation(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -23,7 +25,17 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
             throw new InvalidArgumentsException();
         }
 
-        return this.userRepository.findByUsernameAndPassword(username, password)
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(InvalidUserCredentialsException::new);
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new InvalidUserCredentialsException();
+        }
+
+        if (!user.isEnabled()) {
+            throw new InvalidUserCredentialsException();
+        }
+
+        return user;
     }
 }

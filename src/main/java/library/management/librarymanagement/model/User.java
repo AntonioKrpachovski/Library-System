@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name = "app_user")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,7 +40,6 @@ public class User implements UserDetails {
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;
     private boolean isCredentialsNonExpired = true;
-    private boolean isEnabled = true;
 
 
     public User(String username, String password, String first_name, String last_name, String email, UserRole role, Boolean active_status, LocalDate creation_date) {
@@ -55,7 +55,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name().toUpperCase()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
@@ -75,7 +75,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return Boolean.TRUE.equals(active_status);
     }
-
 }
