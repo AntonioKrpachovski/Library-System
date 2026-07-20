@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class DataInitializer implements CommandLineRunner {
 
     private static final String DEFAULT_ADMIN_USERNAME = "admin";
-    private static final String DEFAULT_ADMIN_PASSWORD = "Admin123!";
+    private static final String DEFAULT_ADMIN_PASSWORD = "admin";
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
