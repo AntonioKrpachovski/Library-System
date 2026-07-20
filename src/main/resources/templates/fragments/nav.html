@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="nav" class="app-nav">
+    <ul>
+        <li><a th:href="@{/dashboard}">Dashboard</a></li>
+        <li><a th:href="@{/books}">Books</a></li>
+        <li><a th:href="@{/members}">Members</a></li>
+        <li><a th:href="@{/loans}">Loans</a></li>
+        <li sec:authorize="hasRole('Administrator')"><a th:href="@{/administration}">Administration</a></li>
+    </ul>
+</nav>
+</body>
+</html>

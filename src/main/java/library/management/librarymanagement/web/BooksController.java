@@ -6,9 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class BooksController {
 
+    @GetMapping("/")
+    public String DefaultView(){
+        return "dashboard";
+    }
+
     @GetMapping("/dashboard")
     public String DashboardView(){
-        return "index";
+        return "dashboard";
     }
 
     @GetMapping("/books")

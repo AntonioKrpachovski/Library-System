@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<ul>
-    <li>Dashboard</li>
-    <li>Books</li>
-    <li>Members</li>
-    <li>Loans</li>
-    <li>Administration</li>
-</ul>
+<header th:fragment="header" class="app-header">
+    <a th:href="@{/dashboard}">Library Management</a>
+    <div class="app-user-info">
+        <span sec:authentication="name">username</span>
+        <span class="role-badge" th:text="${#authentication.principal.role}">ROLE</span>
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</header>
 </body>
 </html>
