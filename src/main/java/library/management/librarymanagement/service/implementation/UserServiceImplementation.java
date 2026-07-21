@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 public class UserServiceImplementation implements UserService {
@@ -39,7 +40,7 @@ public class UserServiceImplementation implements UserService {
             throw new UsernameAlreadyExistsException(username);
         }
 
-        User user = new User(username, passwordEncoder.encode(password), name, surname, email ,role, true, LocalDate.now());
+        User user = new User(username, passwordEncoder.encode(password), name, surname, email ,role, true, LocalDateTime.now());
 
         return userRepository.save(user);
     }

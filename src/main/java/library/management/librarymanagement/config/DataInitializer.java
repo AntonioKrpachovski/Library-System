@@ -9,6 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
@@ -33,7 +35,7 @@ public class DataInitializer implements CommandLineRunner {
                 "admin@library.local",
                 UserRole.Administrator,
                 true,
-                LocalDate.now()
+                LocalDateTime.now()
         );
 
         userRepository.save(admin);

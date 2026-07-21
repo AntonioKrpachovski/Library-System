@@ -12,8 +12,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
-    @Query("select u from User u where lower(u.username) = lower(:username)")
-    Optional<User> findByUsernameIgnoreCase(@Param("username") String username);
 
 }
 

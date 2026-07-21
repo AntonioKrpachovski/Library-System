@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -34,7 +35,7 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
     private Boolean active_status;
-    private LocalDate creation_date;
+    private LocalDateTime creation_date;
 
 
     private boolean isAccountNonExpired = true;
@@ -42,7 +43,7 @@ public class User implements UserDetails {
     private boolean isCredentialsNonExpired = true;
 
 
-    public User(String username, String password, String first_name, String last_name, String email, UserRole role, Boolean active_status, LocalDate creation_date) {
+    public User(String username, String password, String first_name, String last_name, String email, UserRole role, Boolean active_status, LocalDateTime creation_date) {
         this.username = username;
         this.password = password;
         this.first_name = first_name;
