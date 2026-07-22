@@ -19,7 +19,7 @@ public interface BookService {
 
     List<Book> ViewAllBooks();
 
-    Book EditBook(Long id);
+    Book EditBook(Long id, BookAddDTO bookInfo);
 
     BookDTO BookDetails(Long id);
 

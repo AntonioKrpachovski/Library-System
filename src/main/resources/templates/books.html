@@ -11,11 +11,17 @@
     <div th:replace="~{fragments/messages :: messages}"></div>
     <div>
         <h3><span th:text="${pageTitle}">title</span></h3>
+        <a th:href="@{/books/new}">
+            <button type="button">Add Book</button>
+        </a>
         <ul>
             <li th:each="book : ${Books}">
                 <span th:text="${book.title}">Book Title</span>
                 <a th:href="@{/books/{id}(id=${book.id})}">
                     <button type="button">View Details</button>
+                </a>
+                <a th:href="@{/books/{id}/edit(id=${book.id})}">
+                    <button type="button">Edit</button>
                 </a>
             </li>
         </ul>

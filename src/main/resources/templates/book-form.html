@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main class="app-content">
+    <div th:replace="~{fragments/messages :: messages}"></div>
+    <div>
+        <h1 th:text="${bookId} != null ? 'Edit Book' : 'Add Book'">Book Form</h1>
+
+        <form th:action="${bookId} != null ? @{/books/{id}/edit(id=${bookId})} : @{/books/new}"
+              th:object="${book}" method="post">
+            <p>
+                <label>Title:</label>
+                <input type="text" th:field="*{title}" />
+            </p>
+            <p>
+                <label>Description:</label>
+                <textarea th:field="*{description}"></textarea>
+            </p>
+            <p>
+                <label>Publisher:</label>
+                <input type="text" th:field="*{publisher}" />
+            </p>
+            <p>
+                <label>Publication Year:</label>
+                <input type="text" th:field="*{publicationYear}" placeholder="e.g. 1997" />
+            </p>
+            <p>
+                <label>Language:</label>
+                <input type="text" th:field="*{language}" />
+            </p>
+            <p>
+                <label>Number of Pages:</label>
+                <input type="number" th:field="*{numberOfPages}" />
+            </p>
+            <p>
+                <label>Category:</label>
+                <select th:field="*{categoryId}">
+                    <option value="">-- Select category --</option>
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </p>
+            <p>
+                <label>Authors:</label><br/>
+                <span th:each="author : ${authors}">
+                    <input type="checkbox" th:field="*{authorIds}" th:value="${author.id}" />
+                    <label th:text="${author.firstName} + ' ' + ${author.lastName}">Author</label><br/>
+                </span>
+            </p>
+            <p>
+                <label>Status:</label>
+                <select th:field="*{status}">
+                    <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+                </select>
+            </p>
+            <p>
+                <label>Active:</label>
+                <input type="checkbox" th:field="*{active}" />
+            </p>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

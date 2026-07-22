@@ -10,12 +10,18 @@
 <main class="app-content">
     <div th:replace="~{fragments/messages :: messages}"></div>
     <div>
-        <p>Authors:</p>
+        <p>Categories:</p>
+        <a th:href="@{/categories/new}">
+            <button type="button">Add Category</button>
+        </a>
         <ul>
             <li th:each="category : ${categories}">
                 <span th:text="${category.name}">Book Title</span>
                 <a th:href="@{/categories/{id}/books(id=${category.id})}">
                     <button type="button">View Details</button>
+                </a>
+                <a th:href="@{/categories/{id}/edit(id=${category.id})}">
+                    <button type="button">Edit</button>
                 </a>
             </li>
 

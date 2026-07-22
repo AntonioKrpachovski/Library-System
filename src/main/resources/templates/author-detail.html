@@ -20,6 +20,9 @@
         <a th:href="@{/authors/{id}/books(id=${author.id})}">
             <button type="button">View books</button>
         </a>
+        <a th:href="@{/authors/{id}/edit(id=${author.id})}">
+            <button type="button">Edit</button>
+        </a>
     </div>
 </main>
 <div th:replace="~{fragments/footer :: footer}"></div>

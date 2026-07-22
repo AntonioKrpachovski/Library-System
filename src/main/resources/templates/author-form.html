@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main class="app-content">
+    <div th:replace="~{fragments/messages :: messages}"></div>
+    <div>
+        <h1 th:text="${authorId} != null ? 'Edit Author' : 'Add Author'">Author Form</h1>
+
+        <form th:action="${authorId} != null ? @{/authors/{id}/edit(id=${authorId})} : @{/authors/new}"
+              th:object="${author}" method="post">
+            <p>
+                <label>First Name:</label>
+                <input type="text" th:field="*{firstName}" />
+            </p>
+            <p>
+                <label>Last Name:</label>
+                <input type="text" th:field="*{lastName}" />
+            </p>
+            <p>
+                <label>Biography:</label>
+                <textarea th:field="*{optionalBiography}"></textarea>
+            </p>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

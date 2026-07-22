@@ -65,6 +65,13 @@
                 Author
             </li>
         </ul>
+
+        <a th:href="@{/books/{id}/edit(id=${book.id})}">
+            <button type="button">Edit</button>
+        </a>
+        <a th:href="@{/books/{id}/copies(id=${book.id})}">
+            <button type="button">Manage Copies</button>
+        </a>
     </div>
 
 </main>

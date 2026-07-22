@@ -11,7 +11,7 @@ public interface AuthorService {
 
     Author AddAuthor(AuthorDTO authorInfo);
     List<Author> GetAllAuthors();
-    Author EditAuthor(Long id);
+    Author EditAuthor(Long id, AuthorDTO authorInfo);
     List<Author> GetAllAuthorsByName(String name);
     Optional<Author> GetById(Long id);
     long CountAuthors();

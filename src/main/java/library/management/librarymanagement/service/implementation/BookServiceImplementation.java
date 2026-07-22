@@ -10,6 +10,7 @@ import library.management.librarymanagement.model.enums.BookStatus;
 import library.management.librarymanagement.repository.BookRepository;
 import library.management.librarymanagement.service.AuthorService;
 import library.management.librarymanagement.service.BookService;
+import library.management.librarymanagement.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +24,37 @@ public class BookServiceImplementation implements BookService {
 
     private final BookRepository bookRepository;
     private final AuthorService authorService;
+    private final CategoryService categoryService;
 
     @Override
     public Book AddBook(BookAddDTO bookInfo) {
 
         LocalDateTime creation = LocalDateTime.now();
         String ISBN = "filler";
-        Book book = new Book(bookInfo, ISBN, creation, creation, new ArrayList<>());
+
+        if (bookInfo.getCategoryId() != null) {
+            bookInfo.setCategory(categoryService.GetById(bookInfo.getCategoryId()).orElse(null));
+        }
+
+        List<Author> authors = ResolveAuthors(bookInfo.getAuthorIds());
+
+        Book book = new Book(bookInfo, ISBN, creation, creation, authors);
 
         bookRepository.save(book);
 
         return book;
+    }
+
+    private List<Author> ResolveAuthors(List<Long> authorIds) {
+        List<Author> authors = new ArrayList<>();
+
+        if (authorIds != null) {
+            for (Long authorId : authorIds) {
+                authorService.GetById(authorId).ifPresent(authors::add);
+            }
+        }
+
+        return authors;
     }
 
     @Override
@@ -52,11 +73,29 @@ public class BookServiceImplementation implements BookService {
     }
 
     @Override
-    public Book EditBook(Long id) {
+    public Book EditBook(Long id, BookAddDTO bookInfo) {
 
-        Book book = bookRepository.findByIdNotNull(id).get();
+        Book book = bookRepository.findById(id).get();
 
-        return null;
+        book.setTitle(bookInfo.getTitle());
+        book.setDescription(bookInfo.getDescription());
+        book.setPublisher(bookInfo.getPublisher());
+        book.setPublicationYear(bookInfo.getPublicationYear());
+        book.setLanguage(bookInfo.getLanguage());
+        book.setNumberOfPages(bookInfo.getNumberOfPages());
+        book.setStatus(bookInfo.getStatus());
+        book.setActive(bookInfo.isActive());
+        book.setLastUpdateDate(LocalDateTime.now());
+
+        if (bookInfo.getCategoryId() != null) {
+            book.setCategory(categoryService.GetById(bookInfo.getCategoryId()).orElse(book.getCategory()));
+        }
+
+        book.setAuthors(ResolveAuthors(bookInfo.getAuthorIds()));
+
+        bookRepository.save(book);
+
+        return book;
     }
 
     @Override
@@ -67,7 +106,7 @@ public class BookServiceImplementation implements BookService {
     @Override
     public Book DeactivateBook(Long id) {
 
-        Book book = bookRepository.findByIdNotNull(id).get();
+        Book book = bookRepository.findById(id).get();
 
         book.setActive(false);
 
@@ -79,7 +118,7 @@ public class BookServiceImplementation implements BookService {
     @Override
     public Book ReactivateBook(Long id) {
 
-        Book book = bookRepository.findByIdNotNull(id).get();
+        Book book = bookRepository.findById(id).get();
 
         book.setActive(true);
 

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main class="app-content">
+    <div th:replace="~{fragments/messages :: messages}"></div>
+    <div>
+        <h3>Copies of <span th:text="${book.title}">Book Title</span></h3>
+
+        <a th:href="@{/books/{id}/copies/new(id=${book.id})}">
+            <button type="button">Add Copy</button>
+        </a>
+
+        <ul>
+            <li th:each="copy : ${copies}">
+                <span th:text="${copy.inventoryNumber}">Inventory Number</span> -
+                <span th:text="${copy.currentStatus}">Status</span> -
+                <span th:text="${copy.shelfLocation}">Shelf Location</span>
+                <a th:href="@{/book-copies/{id}/edit(id=${copy.id})}">
+                    <button type="button">Edit</button>
+                </a>
+            </li>
+        </ul>
+
+        <a th:href="@{/books/{id}(id=${book.id})}">
+            <button type="button">Back to Book</button>
+        </a>
+    </div>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -30,11 +30,17 @@ public class AuthorServiceImplementation implements AuthorService {
     }
 
     @Override
-    public Author EditAuthor(Long id) {
+    public Author EditAuthor(Long id, AuthorDTO authorInfo) {
 
-        authorRepository.findById(id);
+        Author author = authorRepository.findById(id).get();
 
-        return null;
+        author.setFirstName(authorInfo.getFirstName());
+        author.setLastName(authorInfo.getLastName());
+        author.setOptionalBiography(authorInfo.getOptionalBiography());
+
+        authorRepository.save(author);
+
+        return author;
     }
 
     @Override
