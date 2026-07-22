@@ -4,8 +4,8 @@
 <main class="app-content">
     <div th:replace="~{fragments/messages :: messages}"></div>
     <div>
-        <p>Authors: placeholder</p>
-        <p>Books: placeholder</p>
+        <p>Authors: <span th:text="${AuthorCount}">placeholder</span></p>
+        <p>Books: <span th:text="${BookCount}">placeholder</span></p>
 
     </div>
 </main>

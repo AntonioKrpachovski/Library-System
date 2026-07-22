@@ -1,24 +1,25 @@
 package library.management.librarymanagement.web;
 
+import library.management.librarymanagement.service.BookService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
+@AllArgsConstructor
 public class BooksController {
 
-    @GetMapping("/")
-    public String DefaultView(){
-        return "dashboard";
-    }
-
-    @GetMapping("/dashboard")
-    public String DashboardView(){
-        return "dashboard";
-    }
+    private final BookService bookService;
 
     @GetMapping("/books")
-    public String BooksView(){
+    public String BooksView(Model model){
+
+        model.addAttribute("pageTitle", "Available books:");
+        model.addAttribute("Books",bookService.ViewAllBooks());
+
         return "books";
     }
 
@@ -38,8 +39,16 @@ public class BooksController {
     }
 
     @GetMapping("/books/{id}")
-    public String AdministrationView(long id){
+    public String BookDetailsView(@PathVariable Long id, Model model){
+
+        model.addAttribute("book", bookService.FindBookById(id));
+
         return "book-detail";
+    }
+
+    @GetMapping("/books/new")
+    public String BookAddForm(){
+        return "book-form";
     }
 
     @PostMapping("/books/new")
@@ -47,8 +56,14 @@ public class BooksController {
         return "redirect:/books";
     }
 
-    @PostMapping("/authors/new")
-    public String AddAuthor(){
-        return "redirect:/dashboard";
+    @GetMapping("/books/{id}/edit")
+    public String BookEditForm(@PathVariable Long id, Model model){
+        return "book-form";
     }
+
+    @PostMapping("/books/{id}/edit")
+    public String EditBook(@PathVariable Long id, Model model){
+        return "redirect:/books";
+    }
+
 }

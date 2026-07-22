@@ -29,8 +29,9 @@ public class Book {
     private Year publicationYear;
     private String language;
     private Long numberOfPages;
-    private String category;
-    @ManyToMany
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Category category;
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "book_authors",
             joinColumns = @JoinColumn(name = "book_id"),
@@ -43,7 +44,7 @@ public class Book {
     private LocalDateTime creationDate;
     private LocalDateTime lastUpdateDate;
 
-    public Book(String ISBN, String title, String description, String publisher, Year publicationYear, String language, Long numberOfPages, String category, List<Author> authors, BookStatus status, LocalDateTime creationDate, LocalDateTime lastUpdateDate, boolean active) {
+    public Book(String ISBN, String title, String description, String publisher, Year publicationYear, String language, Long numberOfPages, Category category, List<Author> authors, BookStatus status, LocalDateTime creationDate, LocalDateTime lastUpdateDate, boolean active) {
         this.ISBN = ISBN;
         this.title = title;
         this.description = description;

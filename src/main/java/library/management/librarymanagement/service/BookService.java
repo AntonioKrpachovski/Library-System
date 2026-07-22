@@ -2,6 +2,7 @@ package library.management.librarymanagement.service;
 import library.management.librarymanagement.model.Author;
 import library.management.librarymanagement.model.Book;
 import library.management.librarymanagement.model.BookCopy;
+import library.management.librarymanagement.model.Category;
 import library.management.librarymanagement.model.dtos.BookAddDTO;
 import library.management.librarymanagement.model.dtos.BookDTO;
 
@@ -10,7 +11,11 @@ import java.util.List;
 public interface BookService {
     Book AddBook(BookAddDTO bookInfo);
 
-    List<Book> ViewBooksByAuthor(Author author);
+    Book FindBookById(Long id);
+
+    List<Book> GetBooksByAuthor(Author author);
+
+    List<Book> GetBooksByCategory(Category category);
 
     List<Book> ViewAllBooks();
 
@@ -24,4 +29,5 @@ public interface BookService {
 
     List<BookCopy> ViewPhysicalCopies(Book book);
 
+    long CountBooks();
 }

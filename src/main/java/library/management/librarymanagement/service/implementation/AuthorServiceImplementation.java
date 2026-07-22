@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -24,20 +25,30 @@ public class AuthorServiceImplementation implements AuthorService {
     }
 
     @Override
-    public List<Author> AllAuthors() {
+    public List<Author> GetAllAuthors() {
         return authorRepository.findAll();
     }
 
     @Override
-    public Author EditAuthor(Author author) {
+    public Author EditAuthor(Long id) {
 
-        authorRepository.findById(author.getId());
+        authorRepository.findById(id);
 
-        return author;
+        return null;
     }
 
     @Override
-    public List<Author> AllAuthorsByName(String name) {
-        return authorRepository.findAllByName(name);
+    public List<Author> GetAllAuthorsByName(String name) {
+        return authorRepository.findAllByFirstName(name);
+    }
+
+    @Override
+    public long CountAuthors() {
+        return authorRepository.count();
+    }
+
+    @Override
+    public Optional<Author> GetById(Long id) {
+        return authorRepository.findById(id);
     }
 }

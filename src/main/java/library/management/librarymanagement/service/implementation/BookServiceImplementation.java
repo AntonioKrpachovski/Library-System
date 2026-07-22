@@ -3,10 +3,12 @@ package library.management.librarymanagement.service.implementation;
 import library.management.librarymanagement.model.Author;
 import library.management.librarymanagement.model.Book;
 import library.management.librarymanagement.model.BookCopy;
+import library.management.librarymanagement.model.Category;
 import library.management.librarymanagement.model.dtos.BookAddDTO;
 import library.management.librarymanagement.model.dtos.BookDTO;
 import library.management.librarymanagement.model.enums.BookStatus;
 import library.management.librarymanagement.repository.BookRepository;
+import library.management.librarymanagement.service.AuthorService;
 import library.management.librarymanagement.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.List;
 public class BookServiceImplementation implements BookService {
 
     private final BookRepository bookRepository;
+    private final AuthorService authorService;
 
     @Override
     public Book AddBook(BookAddDTO bookInfo) {
@@ -34,9 +37,13 @@ public class BookServiceImplementation implements BookService {
     }
 
     @Override
-    public List<Book> ViewBooksByAuthor(Author author) {
+    public List<Book> GetBooksByAuthor(Author author) {
+        return bookRepository.findByAuthors_id(author.getId());
+    }
 
-        return null;
+    @Override
+    public List<Book> GetBooksByCategory(Category category) {
+        return bookRepository.findByCategory_id(category.getId());
     }
 
     @Override
@@ -84,5 +91,15 @@ public class BookServiceImplementation implements BookService {
     @Override
     public List<BookCopy> ViewPhysicalCopies(Book book) {
         return List.of();
+    }
+
+    @Override
+    public long CountBooks() {
+        return bookRepository.count();
+    }
+
+    @Override
+    public Book FindBookById(Long id) {
+        return bookRepository.findById(id).get();
     }
 }

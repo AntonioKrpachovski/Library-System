@@ -1,6 +1,6 @@
 package library.management.librarymanagement.model.enums;
 
-public enum Categories {
+public enum CategoryType {
     Programming,
     History,
     ScienceFiction,

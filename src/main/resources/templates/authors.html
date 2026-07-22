@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main class="app-content">
+    <div th:replace="~{fragments/messages :: messages}"></div>
+<div>
+    <p>Authors:</p>
+    <ul>
+        <li th:each="author : ${authors}">
+            <span th:text="${author.firstName}">Book Title</span>
+            <a th:href="@{/authors/{id}(id=${author.id})}">
+                <button type="button">View Details</button>
+            </a>
+        </li>
+
+    </ul>
+</div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</main>
+</body>
+</html>

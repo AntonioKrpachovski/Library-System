@@ -7,12 +7,17 @@
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 <div th:replace="~{fragments/nav :: nav}"></div>
-<main class="app-content">
-    <div th:replace="~{fragments/messages :: messages}"></div>
+<div>
     <div>
-        <p>You do not have permission to visit this site</p>
+        <div>
+            <p><i></i><br/>Status Code: 403</p>
+        </div>
+        <div>
+            <p>Sorry, your access is refused.<br/>Please go back to the previous page to continue browsing.</p>
+            <a href="javascript:history.back()">Go Back</a>
+        </div>
     </div>
-</main>
+</div>
 <div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
