@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<body>
-<nav th:fragment="nav" class="app-nav">
-    <ul>
-        <li><a th:href="@{/dashboard}">Dashboard</a></li>
-        <li><a th:href="@{/books}">Books</a></li>
-        <li><a th:href="@{/authors}">Authors</a></li>
-        <li><a th:href="@{/categories}">Categories</a></li>
-        <li><a th:href="@{/members}">Members</a></li>
-        <li><a th:href="@{/loans}">Loans</a></li>
-        <li sec:authorize="hasRole('Administrator')"><a th:href="@{/administration}">Administration</a></li>
-    </ul>
-</nav>
-</body>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<ul th:fragment="nav" class="nav">
+    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" th:href="@{/dashboard}">Dashboard</a></li>
+    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" th:href="@{/books}">Books</a></li>
+    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" th:href="@{/authors}">Authors</a></li>
+    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" th:href="@{/categories}">Categories</a></li>
+    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" th:href="@{/members}">Members</a></li>
+    <li class="nav-item"><a class="nav-link px-2 text-body-secondary" th:href="@{/loans}">Loans</a></li>
+    <li class="nav-item" sec:authorize="hasRole('Administrator')"><a class="nav-link px-2 text-body-secondary" th:href="@{/administration}">Administration</a></li>
+</ul>
 </html>

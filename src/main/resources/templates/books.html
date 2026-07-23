@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <div th:replace="~{fragments/header :: header}"></div>
-<div th:replace="~{fragments/nav :: nav}"></div>
 <main class="app-content">
     <div th:replace="~{fragments/messages :: messages}"></div>
     <div>
-        <h3><span th:text="${pageTitle}">title</span></h3>
+
         <a th:href="@{/books/new}">
-            <button type="button">Add Book</button>
+            <button type="button" class="btn btn-secondary">Add Book</button>
         </a>
+
+        <h3><span th:text="${pageTitle}">title</span></h3>
+
         <ul>
-            <li th:each="book : ${Books}">
+            <li th:each="book : ${Books}" class="m-2">
                 <span th:text="${book.title}">Book Title</span>
-                <a th:href="@{/books/{id}(id=${book.id})}">
-                    <button type="button">View Details</button>
+                <a th:href="@{/books/{id}(id=${book.id})}" class="text-decoration-none">
+                    <button type="button" class="btn btn-outline-info">View Details</button>
                 </a>
-                <a th:href="@{/books/{id}/edit(id=${book.id})}">
-                    <button type="button">Edit</button>
+                <a th:href="@{/books/{id}/edit(id=${book.id})}" class="text-decoration-none">
+                    <button type="button" class="btn btn-outline-info">Edit</button>
                 </a>
             </li>
         </ul>

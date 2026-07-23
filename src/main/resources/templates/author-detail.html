@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"><head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <div th:replace="~{fragments/header :: header}"></div>
-<div th:replace="~{fragments/nav :: nav}"></div>
 <main class="app-content">
     <div th:replace="~{fragments/messages :: messages}"></div>
     <div>
@@ -17,11 +18,11 @@
             <span th:text="${author.optionalBiography}">Biography</span>
         </p>
 
-        <a th:href="@{/authors/{id}/books(id=${author.id})}">
-            <button type="button">View books</button>
+        <a th:href="@{/authors/{id}/books(id=${author.id})}" class="text-decoration-none">
+            <button type="button" class="btn btn-outline-info">View books</button>
         </a>
-        <a th:href="@{/authors/{id}/edit(id=${author.id})}">
-            <button type="button">Edit</button>
+        <a th:href="@{/authors/{id}/edit(id=${author.id})}" class="text-decoration-none">
+            <button type="button" class="btn btn-outline-info">Edit</button>
         </a>
     </div>
 </main>
