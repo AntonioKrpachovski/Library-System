@@ -25,12 +25,6 @@
                 <textarea th:field="*{description}"></textarea>
             </p>
             <p>
-                <label>Category Type:</label>
-                <select th:field="*{categoryType}">
-                    <option th:each="type : ${categoryTypes}" th:value="${type}" th:text="${type}"></option>
-                </select>
-            </p>
-            <p>
                 <label>Active:</label>
                 <input type="checkbox" th:field="*{status}" />
             </p>

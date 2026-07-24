@@ -5,6 +5,7 @@ import library.management.librarymanagement.model.dtos.AuthorDTO;
 import library.management.librarymanagement.service.AuthorService;
 import library.management.librarymanagement.service.BookService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +49,7 @@ public class AuthorController {
     }
 
 
+    @PreAuthorize("hasRole('Administrator')")
     @GetMapping("/authors/new")
     public String AuthorAddForm(Model model){
 
@@ -56,6 +58,7 @@ public class AuthorController {
         return "author-form";
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @PostMapping("/authors/new")
     public String AddAuthor(@ModelAttribute("author") AuthorDTO authorDTO, RedirectAttributes redirectAttributes){
 
@@ -67,6 +70,7 @@ public class AuthorController {
     }
 
 
+    @PreAuthorize("hasRole('Administrator')")
     @GetMapping("/authors/{id}/edit")
     public String AuthorEditForm(@PathVariable Long id, Model model){
 
@@ -83,6 +87,7 @@ public class AuthorController {
         return "author-form";
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @PostMapping("/authors/{id}/edit")
     public String EditAuthor(@PathVariable Long id, @ModelAttribute("author") AuthorDTO authorDTO, RedirectAttributes redirectAttributes){
 

@@ -31,8 +31,7 @@ public class CategoryServiceImplementation implements CategoryService {
         Category category = new Category(
                 categoryInfo.getName(),
                 categoryInfo.getDescription(),
-                categoryInfo.isStatus(),
-                categoryInfo.getCategoryType()
+                categoryInfo.isStatus()
         );
 
         categoryRepository.save(category);
@@ -47,7 +46,6 @@ public class CategoryServiceImplementation implements CategoryService {
         category.setName(categoryInfo.getName());
         category.setDescription(categoryInfo.getDescription());
         category.setStatus(categoryInfo.isStatus());
-        category.setCategoryType(categoryInfo.getCategoryType());
 
         categoryRepository.save(category);
 

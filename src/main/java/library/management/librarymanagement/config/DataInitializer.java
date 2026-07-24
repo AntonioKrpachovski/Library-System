@@ -5,7 +5,6 @@ import library.management.librarymanagement.model.Book;
 import library.management.librarymanagement.model.Category;
 import library.management.librarymanagement.model.User;
 import library.management.librarymanagement.model.enums.BookStatus;
-import library.management.librarymanagement.model.enums.CategoryType;
 import library.management.librarymanagement.model.enums.UserRole;
 import library.management.librarymanagement.repository.AuthorRepository;
 import library.management.librarymanagement.repository.BookRepository;
@@ -16,7 +15,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.util.List;
@@ -53,6 +51,18 @@ public class DataInitializer implements CommandLineRunner {
 
         userRepository.save(admin);
 
+        User user = new User(
+                "antonio",
+                passwordEncoder.encode("antonio"),
+                "Antonio",
+                "Krpachovski",
+                "email@email.com",
+                UserRole.Member,
+                true,
+                LocalDateTime.now()
+        );
+
+        userRepository.save(user);
 
         Author author1 = new Author(
                 "George",
@@ -75,8 +85,7 @@ public class DataInitializer implements CommandLineRunner {
         Category scienceFiction = new Category(
                 "Science Fiction",
                 "Books about futuristic concepts, technology, and imaginary worlds.",
-                true,
-                CategoryType.ScienceFiction
+                true
         );
 
         scienceFiction = categoryRepository.save(scienceFiction);
@@ -85,8 +94,7 @@ public class DataInitializer implements CommandLineRunner {
         Category children = new Category(
                 "Children",
                 "Books written for children and young readers.",
-                true,
-                CategoryType.Children
+                true
         );
 
         children = categoryRepository.save(children);
@@ -95,8 +103,7 @@ public class DataInitializer implements CommandLineRunner {
         Category programming = new Category(
                 "Programming",
                 "Books about software development and computer science.",
-                true,
-                CategoryType.Programming
+                true
         );
 
         programming = categoryRepository.save(programming);

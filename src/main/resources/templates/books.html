@@ -25,7 +25,7 @@
                 <a th:href="@{/books/{id}(id=${book.id})}" class="text-decoration-none">
                     <button type="button" class="btn btn-outline-info">View Details</button>
                 </a>
-                <a th:href="@{/books/{id}/edit(id=${book.id})}" class="text-decoration-none">
+                <a th:href="@{/books/{id}/edit(id=${book.id})}" class="text-decoration-none" sec:authorize="hasRole('Administrator')">
                     <button type="button" class="btn btn-outline-info">Edit</button>
                 </a>
             </li>

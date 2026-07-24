@@ -48,7 +48,7 @@
 
         <p>
             <strong>Category:</strong>
-            <span th:text="${book.category.categoryType}">Category</span>
+            <span th:text="${book.category.name}">Category</span>
         </p>
 
         <p>
@@ -67,11 +67,11 @@
             </li>
         </ul>
 
-        <a th:href="@{/books/{id}/edit(id=${book.id})}">
+        <a th:href="@{/books/{id}/edit(id=${book.id})}" sec:authorize="hasRole('Administrator')">
             <button type="button">Edit</button>
         </a>
         <a th:href="@{/books/{id}/copies(id=${book.id})}">
-            <button type="button">Manage Copies</button>
+            <button type="button">View Copies</button>
         </a>
     </div>
 

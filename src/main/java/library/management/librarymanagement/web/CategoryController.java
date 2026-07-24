@@ -2,11 +2,11 @@ package library.management.librarymanagement.web;
 
 import library.management.librarymanagement.model.Category;
 import library.management.librarymanagement.model.dtos.CategoryDTO;
-import library.management.librarymanagement.model.enums.CategoryType;
 import library.management.librarymanagement.service.AuthorService;
 import library.management.librarymanagement.service.BookService;
 import library.management.librarymanagement.service.CategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,22 +36,22 @@ public class CategoryController {
 
         Category category = categoryService.GetById(id).get();
 
-        model.addAttribute("pageTitle", "Available books from category " + category.getCategoryType() + ":");
+        model.addAttribute("pageTitle", "Available books from category " + category.getName() + ":");
         model.addAttribute("Books",bookService.GetBooksByCategory(category));
 
         return "books";
     }
 
 
+    @PreAuthorize("hasRole('Administrator')")
     @GetMapping("/categories/new")
     public String CategoryAddForm(Model model){
 
         model.addAttribute("category", new CategoryDTO());
-        model.addAttribute("categoryTypes", CategoryType.values());
-
         return "category-form";
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @PostMapping("/categories/new")
     public String AddCategory(@ModelAttribute("category") CategoryDTO categoryDTO, RedirectAttributes redirectAttributes){
 
@@ -62,6 +62,7 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @GetMapping("/categories/{id}/edit")
     public String CategoryEditForm(@PathVariable Long id, Model model){
 
@@ -71,15 +72,14 @@ public class CategoryController {
         categoryDTO.setName(category.getName());
         categoryDTO.setDescription(category.getDescription());
         categoryDTO.setStatus(category.isStatus());
-        categoryDTO.setCategoryType(category.getCategoryType());
 
         model.addAttribute("category", categoryDTO);
         model.addAttribute("categoryId", id);
-        model.addAttribute("categoryTypes", CategoryType.values());
 
         return "category-form";
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @PostMapping("/categories/{id}/edit")
     public String EditCategory(@PathVariable Long id, @ModelAttribute("category") CategoryDTO categoryDTO, RedirectAttributes redirectAttributes){
 

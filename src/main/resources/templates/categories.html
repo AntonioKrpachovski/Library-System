@@ -12,7 +12,7 @@
 <main class="app-content">
     <div th:replace="~{fragments/messages :: messages}"></div>
     <div>
-        <a th:href="@{/categories/new}">
+        <a th:href="@{/categories/new}" sec:authorize="hasRole('Administrator')">
             <button type="button" class="btn btn-secondary">Add Category</button>
         </a>
 
@@ -24,7 +24,7 @@
                 <a th:href="@{/categories/{id}/books(id=${category.id})}" class="text-decoration-none">
                     <button type="button" class="btn btn-outline-info">View Details</button>
                 </a>
-                <a th:href="@{/categories/{id}/edit(id=${category.id})}" class="text-decoration-none">
+                <a th:href="@{/categories/{id}/edit(id=${category.id})}" class="text-decoration-none" sec:authorize="hasRole('Administrator')">
                     <button type="button" class="btn btn-outline-info">Edit</button>
                 </a>
             </li>

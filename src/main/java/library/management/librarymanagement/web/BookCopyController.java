@@ -1,5 +1,6 @@
 package library.management.librarymanagement.web;
 
+import jakarta.annotation.security.RolesAllowed;
 import library.management.librarymanagement.model.Book;
 import library.management.librarymanagement.model.BookCopy;
 import library.management.librarymanagement.model.dtos.BookCopyDTO;
@@ -8,6 +9,7 @@ import library.management.librarymanagement.service.BookCopyService;
 import library.management.librarymanagement.service.BookService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -42,6 +44,7 @@ public class BookCopyController {
         return "book-copies";
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @GetMapping("/books/{id}/copies/new")
     public String BookCopyAddForm(@PathVariable Long id, Model model){
 
@@ -52,6 +55,7 @@ public class BookCopyController {
         return "book-copy-form";
     }
 
+    @PreAuthorize(value = "hasRole('Administrator')")
     @PostMapping("/books/{id}/copies/new")
     public String AddBookCopy(@PathVariable Long id, @ModelAttribute("copy") BookCopyDTO copyDTO, RedirectAttributes redirectAttributes){
 

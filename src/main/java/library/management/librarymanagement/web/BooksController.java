@@ -8,6 +8,7 @@ import library.management.librarymanagement.service.AuthorService;
 import library.management.librarymanagement.service.BookService;
 import library.management.librarymanagement.service.CategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -79,6 +80,7 @@ public class BooksController {
         return "book-detail";
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @GetMapping("/books/new")
     public String BookAddForm(Model model){
 
@@ -90,6 +92,7 @@ public class BooksController {
         return "book-form";
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @PostMapping("/books/new")
     public String AddBook(@ModelAttribute("book") BookAddDTO bookDTO, RedirectAttributes redirectAttributes){
 
@@ -100,6 +103,7 @@ public class BooksController {
         return "redirect:/books/" + book.getId();
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @GetMapping("/books/{id}/edit")
     public String BookEditForm(@PathVariable Long id, Model model){
 
@@ -126,6 +130,7 @@ public class BooksController {
         return "book-form";
     }
 
+    @PreAuthorize("hasRole('Administrator')")
     @PostMapping("/books/{id}/edit")
     public String EditBook(@PathVariable Long id, @ModelAttribute("book") BookAddDTO bookDTO, RedirectAttributes redirectAttributes){
 
