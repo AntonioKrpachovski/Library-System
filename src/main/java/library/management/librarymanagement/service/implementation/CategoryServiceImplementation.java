@@ -17,38 +17,34 @@ public class CategoryServiceImplementation implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public Optional<Category> GetById(Long id) {
+    public Optional<Category> getById(Long id) {
         return categoryRepository.findById(id);
     }
 
     @Override
-    public List<Category> GetAllCategories() {
+    public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
 
     @Override
-    public Category AddCategory(CategoryDTO categoryInfo) {
+    public Category addCategory(CategoryDTO categoryInfo) {
         Category category = new Category(
                 categoryInfo.getName(),
                 categoryInfo.getDescription(),
                 categoryInfo.isStatus()
         );
 
-        categoryRepository.save(category);
-
-        return category;
+        return categoryRepository.save(category);
     }
 
     @Override
-    public Category EditCategory(Long id, CategoryDTO categoryInfo) {
+    public Category editCategory(Long id, CategoryDTO categoryInfo) {
         Category category = categoryRepository.findById(id).get();
 
         category.setName(categoryInfo.getName());
         category.setDescription(categoryInfo.getDescription());
         category.setStatus(categoryInfo.isStatus());
 
-        categoryRepository.save(category);
-
-        return category;
+        return categoryRepository.save(category);
     }
 }

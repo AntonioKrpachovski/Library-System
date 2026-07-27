@@ -22,47 +22,47 @@ public class AuthorController {
     private final BookService bookService;
 
     @GetMapping("/authors")
-    public String AuthorsView(Model model){
+    public String authorsView(Model model){
 
-        model.addAttribute("authors",authorService.GetAllAuthors());
+        model.addAttribute("authors",authorService.getAllAuthors());
 
         return "authors";
     }
 
     @GetMapping("/authors/{id}")
-    public String AuthorDetailsView(@PathVariable Long id, Model model){
+    public String authorDetailsView(@PathVariable Long id, Model model){
 
-        model.addAttribute("author", authorService.GetById(id).get());
+        model.addAttribute("author", authorService.getById(id).get());
 
         return "author-detail";
     }
 
     @GetMapping("/authors/{id}/books")
-    public String AuthorBooksView(@PathVariable Long id, Model model){
+    public String authorBooksView(@PathVariable Long id, Model model){
 
-        Author author = authorService.GetById(id).get();
+        Author author = authorService.getById(id).get();
 
         model.addAttribute("pageTitle", "Available books from author " + author.getFirstName() + " " + author.getLastName() + ":");
-        model.addAttribute("Books",bookService.GetBooksByAuthor(author));
+        model.addAttribute("Books",bookService.getBooksByAuthor(author));
 
         return "books";
     }
 
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/authors/new")
-    public String AuthorAddForm(Model model){
+    public String authorAddForm(Model model){
 
         model.addAttribute("author", new AuthorDTO());
 
         return "author-form";
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/authors/new")
-    public String AddAuthor(@ModelAttribute("author") AuthorDTO authorDTO, RedirectAttributes redirectAttributes){
+    public String addAuthor(@ModelAttribute("author") AuthorDTO authorDTO, RedirectAttributes redirectAttributes){
 
-        Author author = authorService.AddAuthor(authorDTO);
+        Author author = authorService.addAuthor(authorDTO);
 
         redirectAttributes.addFlashAttribute("successMessage", "Author added successfully.");
 
@@ -70,11 +70,11 @@ public class AuthorController {
     }
 
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/authors/{id}/edit")
-    public String AuthorEditForm(@PathVariable Long id, Model model){
+    public String authorEditForm(@PathVariable Long id, Model model){
 
-        Author author = authorService.GetById(id).get();
+        Author author = authorService.getById(id).get();
 
         AuthorDTO authorDTO = new AuthorDTO();
         authorDTO.setFirstName(author.getFirstName());
@@ -87,11 +87,11 @@ public class AuthorController {
         return "author-form";
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/authors/{id}/edit")
-    public String EditAuthor(@PathVariable Long id, @ModelAttribute("author") AuthorDTO authorDTO, RedirectAttributes redirectAttributes){
+    public String editAuthor(@PathVariable Long id, @ModelAttribute("author") AuthorDTO authorDTO, RedirectAttributes redirectAttributes){
 
-        authorService.EditAuthor(id, authorDTO);
+        authorService.editAuthor(id, authorDTO);
 
         redirectAttributes.addFlashAttribute("successMessage", "Author updated successfully.");
 

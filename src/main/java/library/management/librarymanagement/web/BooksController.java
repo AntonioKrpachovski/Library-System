@@ -49,65 +49,65 @@ public class BooksController {
     }
 
     @GetMapping("/books")
-    public String BooksView(Model model){
+    public String booksView(Model model){
 
         model.addAttribute("pageTitle", "Available books:");
-        model.addAttribute("Books",bookService.ViewAllBooks());
+        model.addAttribute("Books",bookService.viewAllBooks());
 
         return "books";
     }
 
     @GetMapping("/members")
-    public String MembersView(){
+    public String membersView(){
         return "members";
     }
 
     @GetMapping("/loans")
-    public String LoansView(){
+    public String loansView(){
         return "loans";
     }
 
     @GetMapping("/administration")
-    public String AdministrationView(){
+    public String administrationView(){
         return "administration";
     }
 
     @GetMapping("/books/{id}")
-    public String BookDetailsView(@PathVariable Long id, Model model){
+    public String bookDetailsView(@PathVariable Long id, Model model){
 
-        model.addAttribute("book", bookService.FindBookById(id));
+        model.addAttribute("book", bookService.findBookById(id));
 
         return "book-detail";
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/books/new")
-    public String BookAddForm(Model model){
+    public String bookAddForm(Model model){
 
         model.addAttribute("book", new BookAddDTO());
-        model.addAttribute("categories", categoryService.GetAllCategories());
-        model.addAttribute("authors", authorService.GetAllAuthors());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("authors", authorService.getAllAuthors());
         model.addAttribute("statuses", BookStatus.values());
 
         return "book-form";
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/books/new")
-    public String AddBook(@ModelAttribute("book") BookAddDTO bookDTO, RedirectAttributes redirectAttributes){
+    public String addBook(@ModelAttribute("book") BookAddDTO bookDTO, RedirectAttributes redirectAttributes){
 
-        Book book = bookService.AddBook(bookDTO);
+        Book book = bookService.addBook(bookDTO);
 
         redirectAttributes.addFlashAttribute("successMessage", "Book added successfully.");
 
         return "redirect:/books/" + book.getId();
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/books/{id}/edit")
-    public String BookEditForm(@PathVariable Long id, Model model){
+    public String bookEditForm(@PathVariable Long id, Model model){
 
-        Book book = bookService.FindBookById(id);
+        Book book = bookService.findBookById(id);
 
         BookAddDTO bookDTO = new BookAddDTO();
         bookDTO.setTitle(book.getTitle());
@@ -123,18 +123,18 @@ public class BooksController {
 
         model.addAttribute("book", bookDTO);
         model.addAttribute("bookId", id);
-        model.addAttribute("categories", categoryService.GetAllCategories());
-        model.addAttribute("authors", authorService.GetAllAuthors());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("authors", authorService.getAllAuthors());
         model.addAttribute("statuses", BookStatus.values());
 
         return "book-form";
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/books/{id}/edit")
-    public String EditBook(@PathVariable Long id, @ModelAttribute("book") BookAddDTO bookDTO, RedirectAttributes redirectAttributes){
+    public String editBook(@PathVariable Long id, @ModelAttribute("book") BookAddDTO bookDTO, RedirectAttributes redirectAttributes){
 
-        bookService.EditBook(id, bookDTO);
+        bookService.editBook(id, bookDTO);
 
         redirectAttributes.addFlashAttribute("successMessage", "Book updated successfully.");
 

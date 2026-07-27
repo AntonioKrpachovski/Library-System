@@ -14,7 +14,7 @@
     <div>
 
         <a th:href="@{/books/new}">
-            <button type="button" class="btn btn-secondary">Add Book</button>
+            <button type="button" class="btn btn-secondary" sec:authorize="hasRole('ADMINISTRATOR')">Add Book</button>
         </a>
 
         <h3><span th:text="${pageTitle}">title</span></h3>
@@ -25,7 +25,7 @@
                 <a th:href="@{/books/{id}(id=${book.id})}" class="text-decoration-none">
                     <button type="button" class="btn btn-outline-info">View Details</button>
                 </a>
-                <a th:href="@{/books/{id}/edit(id=${book.id})}" class="text-decoration-none" sec:authorize="hasRole('Administrator')">
+                <a th:href="@{/books/{id}/edit(id=${book.id})}" class="text-decoration-none" sec:authorize="hasRole('ADMINISTRATOR')">
                     <button type="button" class="btn btn-outline-info">Edit</button>
                 </a>
             </li>

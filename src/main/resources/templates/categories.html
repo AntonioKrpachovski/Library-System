@@ -12,7 +12,7 @@
 <main class="app-content">
     <div th:replace="~{fragments/messages :: messages}"></div>
     <div>
-        <a th:href="@{/categories/new}" sec:authorize="hasRole('Administrator')">
+        <a th:href="@{/categories/new}" sec:authorize="hasRole('ADMINISTRATOR')">
             <button type="button" class="btn btn-secondary">Add Category</button>
         </a>
 

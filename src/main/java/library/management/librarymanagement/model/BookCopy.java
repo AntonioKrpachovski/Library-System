@@ -7,6 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import library.management.librarymanagement.model.Book;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -25,10 +28,10 @@ public class BookCopy {
     @Enumerated(EnumType.STRING)
     private BookStatus currentStatus;
     private String shelfLocation;
-    private Date acquisitionDate;
+    private LocalDateTime acquisitionDate;
     private String conditionNotes;
 
-    public BookCopy(Book parentBook, String inventoryNumber, BookStatus currentStatus, String shelfLocation, String conditionNotes, Date acquisitionDate) {
+    public BookCopy(Book parentBook, String inventoryNumber, BookStatus currentStatus, String shelfLocation, String conditionNotes, LocalDateTime acquisitionDate) {
         this.parentBook = parentBook;
         this.inventoryNumber = inventoryNumber;
         this.currentStatus = currentStatus;

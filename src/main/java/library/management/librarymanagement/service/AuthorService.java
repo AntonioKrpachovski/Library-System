@@ -9,10 +9,10 @@ import java.util.Optional;
 
 public interface AuthorService {
 
-    Author AddAuthor(AuthorDTO authorInfo);
-    List<Author> GetAllAuthors();
-    Author EditAuthor(Long id, AuthorDTO authorInfo);
-    List<Author> GetAllAuthorsByName(String name);
-    Optional<Author> GetById(Long id);
-    long CountAuthors();
+    Author addAuthor(AuthorDTO authorInfo);
+    List<Author> getAllAuthors();
+    Author editAuthor(Long id, AuthorDTO authorInfo);
+    List<Author> getAllAuthorsByName(String name);
+    Optional<Author> getById(Long id);
+    long countAuthors();
 }

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CategoryService {
-    Optional<Category> GetById(Long id);
-    List<Category> GetAllCategories();
-    Category AddCategory(CategoryDTO categoryInfo);
-    Category EditCategory(Long id, CategoryDTO categoryInfo);
+    Optional<Category> getById(Long id);
+    List<Category> getAllCategories();
+    Category addCategory(CategoryDTO categoryInfo);
+    Category editCategory(Long id, CategoryDTO categoryInfo);
 }

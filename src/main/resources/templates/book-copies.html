@@ -15,7 +15,7 @@
         <h3>Copies of <span th:text="${book.title}">Book Title</span></h3>
 
         <a th:href="@{/books/{id}/copies/new(id=${book.id})}">
-            <button type="button" sec:authorize="hasRole('Administrator')">Add Copy</button>
+            <button type="button" sec:authorize="hasRole('ADMINISTRATOR')">Add Copy</button>
         </a>
 
         <ul>
@@ -24,7 +24,7 @@
                 <span th:text="${copy.currentStatus}">Status</span> -
                 <span th:text="${copy.shelfLocation}">Shelf Location</span>
                 <a th:href="@{/book-copies/{id}/edit(id=${copy.id})}">
-                    <button type="button" sec:authorize="hasRole('Administrator')">Edit</button>
+                    <button type="button" sec:authorize="hasRole('ADMINISTRATOR')">Edit</button>
                 </a>
             </li>
         </ul>

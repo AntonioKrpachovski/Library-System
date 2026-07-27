@@ -27,30 +27,28 @@ public class BookServiceImplementation implements BookService {
     private final CategoryService categoryService;
 
     @Override
-    public Book AddBook(BookAddDTO bookInfo) {
+    public Book addBook(BookAddDTO bookInfo) {
 
         LocalDateTime creation = LocalDateTime.now();
         String ISBN = "filler";
 
         if (bookInfo.getCategoryId() != null) {
-            bookInfo.setCategory(categoryService.GetById(bookInfo.getCategoryId()).orElse(null));
+            bookInfo.setCategory(categoryService.getById(bookInfo.getCategoryId()).orElse(null));
         }
 
-        List<Author> authors = ResolveAuthors(bookInfo.getAuthorIds());
+        List<Author> authors = resolveAuthors(bookInfo.getAuthorIds());
 
         Book book = new Book(bookInfo, ISBN, creation, creation, authors);
 
-        bookRepository.save(book);
-
-        return book;
+        return bookRepository.save(book);
     }
 
-    private List<Author> ResolveAuthors(List<Long> authorIds) {
+    private List<Author> resolveAuthors(List<Long> authorIds) {
         List<Author> authors = new ArrayList<>();
 
         if (authorIds != null) {
             for (Long authorId : authorIds) {
-                authorService.GetById(authorId).ifPresent(authors::add);
+                authorService.getById(authorId).ifPresent(authors::add);
             }
         }
 
@@ -58,22 +56,22 @@ public class BookServiceImplementation implements BookService {
     }
 
     @Override
-    public List<Book> GetBooksByAuthor(Author author) {
+    public List<Book> getBooksByAuthor(Author author) {
         return bookRepository.findByAuthors_id(author.getId());
     }
 
     @Override
-    public List<Book> GetBooksByCategory(Category category) {
+    public List<Book> getBooksByCategory(Category category) {
         return bookRepository.findByCategory_id(category.getId());
     }
 
     @Override
-    public List<Book> ViewAllBooks() {
+    public List<Book> viewAllBooks() {
         return this.bookRepository.findAll();
     }
 
     @Override
-    public Book EditBook(Long id, BookAddDTO bookInfo) {
+    public Book editBook(Long id, BookAddDTO bookInfo) {
 
         Book book = bookRepository.findById(id).get();
 
@@ -88,57 +86,51 @@ public class BookServiceImplementation implements BookService {
         book.setLastUpdateDate(LocalDateTime.now());
 
         if (bookInfo.getCategoryId() != null) {
-            book.setCategory(categoryService.GetById(bookInfo.getCategoryId()).orElse(book.getCategory()));
+            book.setCategory(categoryService.getById(bookInfo.getCategoryId()).orElse(book.getCategory()));
         }
 
-        book.setAuthors(ResolveAuthors(bookInfo.getAuthorIds()));
+        book.setAuthors(resolveAuthors(bookInfo.getAuthorIds()));
 
-        bookRepository.save(book);
-
-        return book;
+        return bookRepository.save(book);
     }
 
     @Override
-    public BookDTO BookDetails(Long id) {
+    public BookDTO bookDetails(Long id) {
         return null;
     }
 
     @Override
-    public Book DeactivateBook(Long id) {
+    public Book deactivateBook(Long id) {
 
         Book book = bookRepository.findById(id).get();
 
         book.setActive(false);
 
-        bookRepository.save(book);
-
-        return book;
+        return bookRepository.save(book);
     }
 
     @Override
-    public Book ReactivateBook(Long id) {
+    public Book reactivateBook(Long id) {
 
         Book book = bookRepository.findById(id).get();
 
         book.setActive(true);
 
-        bookRepository.save(book);
-
-        return book;
+        return bookRepository.save(book);
     }
 
     @Override
-    public List<BookCopy> ViewPhysicalCopies(Book book) {
+    public List<BookCopy> viewPhysicalCopies(Book book) {
         return List.of();
     }
 
     @Override
-    public long CountBooks() {
+    public long countBooks() {
         return bookRepository.count();
     }
 
     @Override
-    public Book FindBookById(Long id) {
+    public Book findBookById(Long id) {
         return bookRepository.findById(id).get();
     }
 }

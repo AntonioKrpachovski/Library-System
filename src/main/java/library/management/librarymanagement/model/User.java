@@ -1,6 +1,7 @@
 package library.management.librarymanagement.model;
 
 import jakarta.persistence.*;
+import library.management.librarymanagement.model.dtos.UserDTO;
 import library.management.librarymanagement.model.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,14 +29,14 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String username;
     private String password;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     @Column(unique = true, nullable = false)
     private String email;
     @Enumerated(value = EnumType.STRING)
     private UserRole role;
-    private Boolean active_status;
-    private LocalDateTime creation_date;
+    private Boolean activeStatus;
+    private LocalDateTime creationDate;
 
 
     private boolean isAccountNonExpired = true;
@@ -46,12 +47,23 @@ public class User implements UserDetails {
     public User(String username, String password, String first_name, String last_name, String email, UserRole role, Boolean active_status, LocalDateTime creation_date) {
         this.username = username;
         this.password = password;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = first_name;
+        this.lastName = last_name;
         this.email = email;
         this.role = role;
-        this.active_status = active_status;
-        this.creation_date = creation_date;
+        this.activeStatus = active_status;
+        this.creationDate = creation_date;
+    }
+
+    public User(UserDTO userInfo) {
+        this.username = userInfo.getUsername();
+        this.password = userInfo.getPassword();
+        this.firstName = userInfo.getFirstName();
+        this.lastName = userInfo.getLastName();
+        this.email = userInfo.getEmail();
+        this.role = userInfo.getRole();
+        this.activeStatus = userInfo.getActiveStatus();
+        this.creationDate = userInfo.getCreationDate();
     }
 
     @Override
@@ -76,6 +88,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return Boolean.TRUE.equals(active_status);
+        return Boolean.TRUE.equals(activeStatus);
     }
 }

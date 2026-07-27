@@ -20,9 +20,9 @@ public class BookCopyServiceImplementation implements BookCopyService {
     private final BookService bookService;
 
     @Override
-    public BookCopy AddCopy(Long bookId, BookCopyDTO copyInfo) {
+    public BookCopy addCopy(Long bookId, BookCopyDTO copyInfo) {
 
-        Book book = bookService.FindBookById(bookId);
+        Book book = bookService.findBookById(bookId);
 
         BookCopy copy = new BookCopy(
                 book,
@@ -33,13 +33,11 @@ public class BookCopyServiceImplementation implements BookCopyService {
                 copyInfo.getAcquisitionDate()
         );
 
-        bookCopyRepository.save(copy);
-
-        return copy;
+        return bookCopyRepository.save(copy);
     }
 
     @Override
-    public BookCopy EditCopy(Long id, BookCopyDTO copyInfo) {
+    public BookCopy editCopy(Long id, BookCopyDTO copyInfo) {
 
         BookCopy copy = bookCopyRepository.findById(id).get();
 
@@ -49,18 +47,16 @@ public class BookCopyServiceImplementation implements BookCopyService {
         copy.setConditionNotes(copyInfo.getConditionNotes());
         copy.setAcquisitionDate(copyInfo.getAcquisitionDate());
 
-        bookCopyRepository.save(copy);
-
-        return copy;
+        return bookCopyRepository.save(copy);
     }
 
     @Override
-    public Optional<BookCopy> GetById(Long id) {
+    public Optional<BookCopy> getById(Long id) {
         return bookCopyRepository.findById(id);
     }
 
     @Override
-    public List<BookCopy> GetCopiesByBook(Long bookId) {
+    public List<BookCopy> getCopiesByBook(Long bookId) {
         return bookCopyRepository.findByParentBook_Id(bookId);
     }
 }

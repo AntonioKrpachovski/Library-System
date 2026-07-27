@@ -44,7 +44,7 @@ public class DataInitializer implements CommandLineRunner {
                 "System",
                 "Administrator",
                 "admin@library.local",
-                UserRole.Administrator,
+                UserRole.ADMINISTRATOR,
                 true,
                 LocalDateTime.now()
         );
@@ -57,7 +57,7 @@ public class DataInitializer implements CommandLineRunner {
                 "Antonio",
                 "Krpachovski",
                 "email@email.com",
-                UserRole.Member,
+                UserRole.MEMBER,
                 true,
                 LocalDateTime.now()
         );

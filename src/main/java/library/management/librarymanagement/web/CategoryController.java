@@ -23,50 +23,50 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/categories")
-    public String CategoriesView(Model model){
+    public String categoriesView(Model model){
 
-        model.addAttribute("categories",categoryService.GetAllCategories());
+        model.addAttribute("categories",categoryService.getAllCategories());
 
         return "categories";
     }
 
 
     @GetMapping("/categories/{id}/books")
-    public String CategoryBooksView(@PathVariable Long id, Model model){
+    public String categoryBooksView(@PathVariable Long id, Model model){
 
-        Category category = categoryService.GetById(id).get();
+        Category category = categoryService.getById(id).get();
 
         model.addAttribute("pageTitle", "Available books from category " + category.getName() + ":");
-        model.addAttribute("Books",bookService.GetBooksByCategory(category));
+        model.addAttribute("Books",bookService.getBooksByCategory(category));
 
         return "books";
     }
 
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/categories/new")
-    public String CategoryAddForm(Model model){
+    public String categoryAddForm(Model model){
 
         model.addAttribute("category", new CategoryDTO());
         return "category-form";
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/categories/new")
-    public String AddCategory(@ModelAttribute("category") CategoryDTO categoryDTO, RedirectAttributes redirectAttributes){
+    public String addCategory(@ModelAttribute("category") CategoryDTO categoryDTO, RedirectAttributes redirectAttributes){
 
-        categoryService.AddCategory(categoryDTO);
+        categoryService.addCategory(categoryDTO);
 
         redirectAttributes.addFlashAttribute("successMessage", "Category added successfully.");
 
         return "redirect:/categories";
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/categories/{id}/edit")
-    public String CategoryEditForm(@PathVariable Long id, Model model){
+    public String categoryEditForm(@PathVariable Long id, Model model){
 
-        Category category = categoryService.GetById(id).get();
+        Category category = categoryService.getById(id).get();
 
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setName(category.getName());
@@ -79,11 +79,11 @@ public class CategoryController {
         return "category-form";
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/categories/{id}/edit")
-    public String EditCategory(@PathVariable Long id, @ModelAttribute("category") CategoryDTO categoryDTO, RedirectAttributes redirectAttributes){
+    public String editCategory(@PathVariable Long id, @ModelAttribute("category") CategoryDTO categoryDTO, RedirectAttributes redirectAttributes){
 
-        categoryService.EditCategory(id, categoryDTO);
+        categoryService.editCategory(id, categoryDTO);
 
         redirectAttributes.addFlashAttribute("successMessage", "Category updated successfully.");
 

@@ -34,42 +34,43 @@ public class BookCopyController {
     }
 
     @GetMapping("/books/{id}/copies")
-    public String BookCopiesView(@PathVariable Long id, Model model){
+    public String bookCopiesView(@PathVariable Long id, Model model){
 
-        Book book = bookService.FindBookById(id);
+        Book book = bookService.findBookById(id);
 
         model.addAttribute("book", book);
-        model.addAttribute("copies", bookCopyService.GetCopiesByBook(id));
+        model.addAttribute("copies", bookCopyService.getCopiesByBook(id));
 
         return "book-copies";
     }
 
-    @PreAuthorize("hasRole('Administrator')")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping("/books/{id}/copies/new")
-    public String BookCopyAddForm(@PathVariable Long id, Model model){
+    public String bookCopyAddForm(@PathVariable Long id, Model model){
 
-        model.addAttribute("book", bookService.FindBookById(id));
+        model.addAttribute("book", bookService.findBookById(id));
         model.addAttribute("copy", new BookCopyDTO());
         model.addAttribute("statuses", BookStatus.values());
 
         return "book-copy-form";
     }
 
-    @PreAuthorize(value = "hasRole('Administrator')")
+    @PreAuthorize(value = "hasRole('ADMINISTRATOR')")
     @PostMapping("/books/{id}/copies/new")
-    public String AddBookCopy(@PathVariable Long id, @ModelAttribute("copy") BookCopyDTO copyDTO, RedirectAttributes redirectAttributes){
+    public String addBookCopy(@PathVariable Long id, @ModelAttribute("copy") BookCopyDTO copyDTO, RedirectAttributes redirectAttributes){
 
-        bookCopyService.AddCopy(id, copyDTO);
+        bookCopyService.addCopy(id, copyDTO);
 
         redirectAttributes.addFlashAttribute("successMessage", "Book copy added successfully.");
 
         return "redirect:/books/" + id + "/copies";
     }
 
+    @PreAuthorize(value = "hasRole('ADMINISTRATOR')")
     @GetMapping("/book-copies/{id}/edit")
-    public String BookCopyEditForm(@PathVariable Long id, Model model){
+    public String bookCopyEditForm(@PathVariable Long id, Model model){
 
-        BookCopy copy = bookCopyService.GetById(id).get();
+        BookCopy copy = bookCopyService.getById(id).get();
 
         BookCopyDTO copyDTO = new BookCopyDTO();
         copyDTO.setInventoryNumber(copy.getInventoryNumber());
@@ -86,10 +87,11 @@ public class BookCopyController {
         return "book-copy-form";
     }
 
+    @PreAuthorize(value = "hasRole('ADMINISTRATOR')")
     @PostMapping("/book-copies/{id}/edit")
-    public String EditBookCopy(@PathVariable Long id, @ModelAttribute("copy") BookCopyDTO copyDTO, RedirectAttributes redirectAttributes){
+    public String editBookCopy(@PathVariable Long id, @ModelAttribute("copy") BookCopyDTO copyDTO, RedirectAttributes redirectAttributes){
 
-        BookCopy copy = bookCopyService.EditCopy(id, copyDTO);
+        BookCopy copy = bookCopyService.editCopy(id, copyDTO);
 
         redirectAttributes.addFlashAttribute("successMessage", "Book copy updated successfully.");
 

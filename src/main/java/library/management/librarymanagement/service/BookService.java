@@ -9,25 +9,25 @@ import library.management.librarymanagement.model.dtos.BookDTO;
 import java.util.List;
 
 public interface BookService {
-    Book AddBook(BookAddDTO bookInfo);
+    Book addBook(BookAddDTO bookInfo);
 
-    Book FindBookById(Long id);
+    Book findBookById(Long id);
 
-    List<Book> GetBooksByAuthor(Author author);
+    List<Book> getBooksByAuthor(Author author);
 
-    List<Book> GetBooksByCategory(Category category);
+    List<Book> getBooksByCategory(Category category);
 
-    List<Book> ViewAllBooks();
+    List<Book> viewAllBooks();
 
-    Book EditBook(Long id, BookAddDTO bookInfo);
+    Book editBook(Long id, BookAddDTO bookInfo);
 
-    BookDTO BookDetails(Long id);
+    BookDTO bookDetails(Long id);
 
-    Book DeactivateBook(Long id);
+    Book deactivateBook(Long id);
 
-    Book ReactivateBook(Long id);
+    Book reactivateBook(Long id);
 
-    List<BookCopy> ViewPhysicalCopies(Book book);
+    List<BookCopy> viewPhysicalCopies(Book book);
 
-    long CountBooks();
+    long countBooks();
 }

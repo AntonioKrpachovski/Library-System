@@ -1,6 +1,7 @@
 package library.management.librarymanagement.service.implementation;
 
 import library.management.librarymanagement.model.User;
+import library.management.librarymanagement.model.dtos.UserDTO;
 import library.management.librarymanagement.model.enums.UserRole;
 import library.management.librarymanagement.model.exceptions.InvalidArgumentsException;
 import library.management.librarymanagement.model.exceptions.PasswordsDoNotMatchException;
@@ -12,8 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class UserServiceImplementation implements UserService {
@@ -48,5 +49,47 @@ public class UserServiceImplementation implements UserService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User editUser(Long userId, UserDTO userInfo) {
+        User user = userRepository.findById(userId).get();
+
+        user.setUsername(userInfo.getUsername());
+        user.setPassword(userInfo.getPassword());
+        user.setFirstName(userInfo.getFirstName());
+        user.setLastName(userInfo.getLastName());
+        user.setEmail(userInfo.getEmail());
+        user.setRole(userInfo.getRole());
+        user.setActiveStatus(userInfo.getActiveStatus());
+        user.setCreationDate(userInfo.getCreationDate());
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User addUser(UserDTO userInfo) {
+        User user = new User(userInfo);
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User deleteUser(Long userId) {
+        User user = userRepository.findById(userId).get();
+
+        userRepository.delete(user);
+
+        return user;
+    }
+
+    @Override
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId).get();
     }
 }

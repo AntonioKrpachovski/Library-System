@@ -67,7 +67,7 @@
             </li>
         </ul>
 
-        <a th:href="@{/books/{id}/edit(id=${book.id})}" sec:authorize="hasRole('Administrator')">
+        <a th:href="@{/books/{id}/edit(id=${book.id})}" sec:authorize="hasRole('ADMINISTRATOR')">
             <button type="button">Edit</button>
         </a>
         <a th:href="@{/books/{id}/copies(id=${book.id})}">

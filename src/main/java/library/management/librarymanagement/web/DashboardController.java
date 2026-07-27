@@ -15,10 +15,10 @@ public class DashboardController {
     private final AuthorService authorService;
 
     @GetMapping({"/", "/dashboard"})
-    public String DashboardView(Model model){
+    public String dashboardView(Model model){
 
-        model.addAttribute("BookCount", bookService.CountBooks());
-        model.addAttribute("AuthorCount", authorService.CountAuthors());
+        model.addAttribute("BookCount", bookService.countBooks());
+        model.addAttribute("AuthorCount", authorService.countAuthors());
         return "dashboard";
     }
 }

@@ -17,20 +17,19 @@ public class AuthorServiceImplementation implements AuthorService {
     private final AuthorRepository authorRepository;
 
     @Override
-    public Author AddAuthor(AuthorDTO authorInfo) {
+    public Author addAuthor(AuthorDTO authorInfo) {
         Author author = new Author(authorInfo);
 
-        authorRepository.save(author);
-        return author;
+        return authorRepository.save(author);
     }
 
     @Override
-    public List<Author> GetAllAuthors() {
+    public List<Author> getAllAuthors() {
         return authorRepository.findAll();
     }
 
     @Override
-    public Author EditAuthor(Long id, AuthorDTO authorInfo) {
+    public Author editAuthor(Long id, AuthorDTO authorInfo) {
 
         Author author = authorRepository.findById(id).get();
 
@@ -38,23 +37,21 @@ public class AuthorServiceImplementation implements AuthorService {
         author.setLastName(authorInfo.getLastName());
         author.setOptionalBiography(authorInfo.getOptionalBiography());
 
-        authorRepository.save(author);
-
-        return author;
+        return authorRepository.save(author);
     }
 
     @Override
-    public List<Author> GetAllAuthorsByName(String name) {
+    public List<Author> getAllAuthorsByName(String name) {
         return authorRepository.findAllByFirstName(name);
     }
 
     @Override
-    public long CountAuthors() {
+    public long countAuthors() {
         return authorRepository.count();
     }
 
     @Override
-    public Optional<Author> GetById(Long id) {
+    public Optional<Author> getById(Long id) {
         return authorRepository.findById(id);
     }
 }
