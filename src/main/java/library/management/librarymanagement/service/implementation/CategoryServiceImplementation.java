@@ -39,7 +39,7 @@ public class CategoryServiceImplementation implements CategoryService {
 
     @Override
     public Category editCategory(Long id, CategoryDTO categoryInfo) {
-        Category category = categoryRepository.findById(id).get();
+        Category category = categoryRepository.findById(id).orElseThrow();
 
         category.setName(categoryInfo.getName());
         category.setDescription(categoryInfo.getDescription());

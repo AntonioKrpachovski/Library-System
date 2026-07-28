@@ -73,7 +73,7 @@ public class BookServiceImplementation implements BookService {
     @Override
     public Book editBook(Long id, BookAddDTO bookInfo) {
 
-        Book book = bookRepository.findById(id).get();
+        Book book = bookRepository.findById(id).orElseThrow();
 
         book.setTitle(bookInfo.getTitle());
         book.setDescription(bookInfo.getDescription());
@@ -102,7 +102,7 @@ public class BookServiceImplementation implements BookService {
     @Override
     public Book deactivateBook(Long id) {
 
-        Book book = bookRepository.findById(id).get();
+        Book book = bookRepository.findById(id).orElseThrow();
 
         book.setActive(false);
 
@@ -112,7 +112,7 @@ public class BookServiceImplementation implements BookService {
     @Override
     public Book reactivateBook(Long id) {
 
-        Book book = bookRepository.findById(id).get();
+        Book book = bookRepository.findById(id).orElseThrow();
 
         book.setActive(true);
 

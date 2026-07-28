@@ -31,6 +31,8 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
+    @OneToOne(mappedBy = "user")
+    private Member member;
     @Column(unique = true, nullable = false)
     private String email;
     @Enumerated(value = EnumType.STRING)
@@ -52,7 +54,7 @@ public class User implements UserDetails {
         this.email = email;
         this.role = role;
         this.activeStatus = active_status;
-        this.creationDate = creation_date;
+        this.creationDate = LocalDateTime.now();
     }
 
     public User(UserDTO userInfo) {
@@ -61,9 +63,9 @@ public class User implements UserDetails {
         this.firstName = userInfo.getFirstName();
         this.lastName = userInfo.getLastName();
         this.email = userInfo.getEmail();
-        this.role = userInfo.getRole();
+        this.role = UserRole.MEMBER;
         this.activeStatus = userInfo.getActiveStatus();
-        this.creationDate = userInfo.getCreationDate();
+        this.creationDate = LocalDateTime.now();
     }
 
     @Override

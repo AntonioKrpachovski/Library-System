@@ -35,7 +35,7 @@ public class MemberServiceImplementation implements MemberService {
 
     public Member suspendMember(Long memberId) {
 
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findById(memberId).orElseThrow();
         member.setStatus(MembershipStatus.SUSPENDED);
 
         return memberRepository.save(member);
@@ -44,11 +44,8 @@ public class MemberServiceImplementation implements MemberService {
     @Override
     public Member editMember(Long memberId, MemberEditDTO memberInfo) {
 
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findById(memberId).orElseThrow();
 
-        member.setFirstName(memberInfo.getFirstName());
-        member.setLastName(memberInfo.getLastName());
-        member.setEmail(memberInfo.getEmail());
         member.setPhoneNumber(memberInfo.getPhoneNumber());
         member.setAddress(memberInfo.getAddress());
         member.setExpirationDate(memberInfo.getExpirationDate());
@@ -60,7 +57,7 @@ public class MemberServiceImplementation implements MemberService {
 
     @Override
     public Member reactivateMember(Long memberId) {
-        Member member = memberRepository.findById(memberId).get();
+        Member member = memberRepository.findById(memberId).orElseThrow();
         member.setStatus(MembershipStatus.ACTIVE);
 
         return memberRepository.save(member);

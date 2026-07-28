@@ -19,23 +19,21 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @Column(unique = true)
     private String membershipNumber;
-    private String firstName;
-    private String lastName;
-    private String email;
     private long phoneNumber;
     private String address;
     private LocalDateTime registrationDate;
     private LocalDateTime expirationDate;
     private MembershipStatus status;
     private int maxLoans;
+    @OneToMany(mappedBy = "member")
     private List<Loan> loans;
 
-    public Member(String firstName, String lastName, String email, long phoneNumber, String address, LocalDateTime expirationDate, int maxLoans) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+    public Member(long phoneNumber, String address, LocalDateTime expirationDate, int maxLoans) {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.registrationDate = LocalDateTime.now();
@@ -45,9 +43,6 @@ public class Member {
     }
 
     public Member(MemberDTO memberInfo) {
-        this.firstName = memberInfo.getFirstName();
-        this.lastName = memberInfo.getLastName();
-        this.email = memberInfo.getEmail();
         this.phoneNumber = memberInfo.getPhoneNumber();
         this.address = memberInfo.getAddress();
         this.registrationDate = LocalDateTime.now();

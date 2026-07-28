@@ -15,7 +15,9 @@
 
         <div class="col-md-3 text-end align-items-center d-flex justify-content-end">
             <span class="role-badge me-2" th:text="${#authentication.principal.role}">ROLE</span>
-            <span class="me-2" sec:authentication="name">username</span>
+            <a th:href="@{/users/{id}(id=${#authentication.principal.id})}">
+                <span class="me-2" sec:authentication="name">username</span>
+            </a>
             <form th:action="@{/logout}" method="post" class="logout-form d-inline-block">
                 <button type="submit" class="btn btn-outline-danger">Logout</button>
             </form>

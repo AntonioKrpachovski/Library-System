@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -17,7 +16,5 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private UserRole role;
     private Boolean activeStatus;
-    private LocalDateTime creationDate;
 }

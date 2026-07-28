@@ -8,6 +8,7 @@ import library.management.librarymanagement.model.exceptions.PasswordsDoNotMatch
 import library.management.librarymanagement.model.exceptions.UsernameAlreadyExistsException;
 import library.management.librarymanagement.repository.UserRepository;
 import library.management.librarymanagement.service.UserService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -58,17 +59,14 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public User editUser(Long userId, UserDTO userInfo) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow();
 
         user.setUsername(userInfo.getUsername());
         user.setPassword(userInfo.getPassword());
         user.setFirstName(userInfo.getFirstName());
         user.setLastName(userInfo.getLastName());
         user.setEmail(userInfo.getEmail());
-        user.setRole(userInfo.getRole());
         user.setActiveStatus(userInfo.getActiveStatus());
-        user.setCreationDate(userInfo.getCreationDate());
-
         return userRepository.save(user);
     }
 
@@ -81,7 +79,7 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public User deleteUser(Long userId) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElseThrow();
 
         userRepository.delete(user);
 
@@ -89,7 +87,8 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    @PreAuthorize("hasRole('ADMINISTRATOR') or #userId == authentication.principal.id")
     public User findUserById(Long userId) {
-        return userRepository.findById(userId).get();
+        return userRepository.findById(userId).orElseThrow();
     }
 }

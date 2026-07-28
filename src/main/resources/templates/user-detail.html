@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main class="app-content">
+
+    <div th:replace="~{fragments/messages :: messages}"></div>
+
+    <div>
+
+        <h1 th:text="${user.username}">Username</h1>
+
+        <p>
+            <strong>First Name:</strong>
+            <span th:text="${user.firstName}"></span>
+        </p>
+
+        <p>
+            <strong>Last Name:</strong>
+            <span th:text="${user.lastName}"></span>
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            <span th:text="${user.email}"></span>
+        </p>
+
+        <p>
+            <strong>Active:</strong>
+            <span th:text="${user.activeStatus != null && user.activeStatus ? 'Yes' : 'No'}"></span>
+        </p>
+
+        <a th:href="@{/users/edit/{id}(id=${user.id})}"
+           sec:authorize="hasRole('ADMINISTRATOR') or #authentication.principal.id == #vars.user.id">
+            <button type="button" class="btn btn-primary">
+                Edit
+            </button>
+        </a>
+
+    </div>
+    <div th:if="${user.member != null}">
+        <h3>Membership Information</h3>
+
+        <p>
+            <strong>Membership Number:</strong>
+            <span th:text="${user.member.membershipNumber}"></span>
+        </p>
+
+        <p>
+            <strong>Phone:</strong>
+            <span th:text="${user.member.phoneNumber}"></span>
+        </p>
+
+        <p>
+            <strong>Address:</strong>
+            <span th:text="${user.member.address}"></span>
+        </p>
+
+        <p>
+            <strong>Registration Date:</strong>
+            <span th:text="${#temporals.format(user.member.registrationDate, 'dd/MM/yyyy HH:mm')}"></span>
+        </p>
+
+        <p>
+            <strong>Expiration Date:</strong>
+            <span th:text="${#temporals.format(user.member.expirationDate, 'dd/MM/yyyy')}"></span>
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            <span th:text="${user.member.status}"></span>
+        </p>
+
+        <p>
+            <strong>Maximum Loans:</strong>
+            <span th:text="${user.member.maxLoans}"></span>
+        </p>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

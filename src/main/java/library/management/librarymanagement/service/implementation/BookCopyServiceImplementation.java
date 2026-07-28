@@ -39,7 +39,7 @@ public class BookCopyServiceImplementation implements BookCopyService {
     @Override
     public BookCopy editCopy(Long id, BookCopyDTO copyInfo) {
 
-        BookCopy copy = bookCopyRepository.findById(id).get();
+        BookCopy copy = bookCopyRepository.findById(id).orElseThrow();
 
         copy.setInventoryNumber(copyInfo.getInventoryNumber());
         copy.setCurrentStatus(copyInfo.getCurrentStatus());
