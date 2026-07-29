@@ -48,7 +48,7 @@
                     </button>
                 </a>
 
-                <form th:action="@{/members/suspend/{id}(id=${user.id})}"
+                <form th:action="@{/members/deactivate/{id}(id=${user.id})}"
                       method="post"
                       sec:authorize="hasRole('ADMINISTRATOR')">
                     <button type="submit" class="btn btn-outline-info">

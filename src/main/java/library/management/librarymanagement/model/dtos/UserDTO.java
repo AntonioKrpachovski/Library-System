@@ -17,4 +17,6 @@ public class UserDTO {
     private String lastName;
     private String email;
     private Boolean activeStatus;
+    private UserRole role;
+    private MemberEditDTO member;
 }

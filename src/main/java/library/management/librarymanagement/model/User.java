@@ -63,7 +63,7 @@ public class User implements UserDetails {
         this.firstName = userInfo.getFirstName();
         this.lastName = userInfo.getLastName();
         this.email = userInfo.getEmail();
-        this.role = UserRole.MEMBER;
+        this.role = userInfo.getRole() != null ? userInfo.getRole() : UserRole.MEMBER;
         this.activeStatus = userInfo.getActiveStatus();
         this.creationDate = LocalDateTime.now();
     }

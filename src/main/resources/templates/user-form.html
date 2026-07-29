@@ -44,17 +44,32 @@
                 <input type="email" th:field="*{email}">
             </p>
 
+            <p th:if="${userId} == null">
+                <label>Password:</label>
+                <input type="password" th:field="*{password}">
+            </p>
+
+            <p th:if="${userId} == null">
+                <label>Role:</label>
+                <select id="roleSelect" th:field="*{role}">
+                    <option th:each="r : ${T(library.management.librarymanagement.model.enums.UserRole).values()}"
+                            th:value="${r}"
+                            th:text="${r}">
+                    </option>
+                </select>
+            </p>
+
             <p sec:authorize="hasRole('ADMINISTRATOR')">
                 <label>Active:</label>
                 <input type="checkbox" th:field="*{activeStatus}">
             </p>
 
-            <div th:if="*{member != null}">
+            <div id="memberFields" th:if="${userId} == null or *{member} != null">
                 <h3>Membership Information</h3>
 
                 <p>
                     <label>Phone:</label>
-                    <input type="number" th:field="*{member.phoneNumber}">
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" th:field="*{member.phoneNumber}">
                 </p>
 
                 <p>
@@ -73,7 +88,7 @@
                     <input type="number" th:field="*{member.maxLoans}">
                 </p>
 
-                <p sec:authorize="hasRole('ADMINISTRATOR')">
+                <p th:if="${userId} != null" sec:authorize="hasRole('ADMINISTRATOR')">
                     <label>Status:</label>
                     <select th:field="*{member.status}">
                         <option th:each="status : ${T(library.management.librarymanagement.model.enums.MembershipStatus).values()}"
@@ -92,6 +107,22 @@
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var roleSelect = document.getElementById('roleSelect');
+        var memberFields = document.getElementById('memberFields');
+
+        if (roleSelect && memberFields) {
+            function toggleMemberFields() {
+                memberFields.style.display = roleSelect.value === 'MEMBER' ? '' : 'none';
+            }
+
+            roleSelect.addEventListener('change', toggleMemberFields);
+            toggleMemberFields();
+        }
+    });
+</script>
 
 </body>
 </html>

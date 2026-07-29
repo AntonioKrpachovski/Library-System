@@ -10,6 +10,7 @@ import library.management.librarymanagement.model.exceptions.InvalidArgumentsExc
 import library.management.librarymanagement.model.exceptions.PasswordsDoNotMatchException;
 import library.management.librarymanagement.model.exceptions.UsernameAlreadyExistsException;
 import library.management.librarymanagement.repository.UserRepository;
+import library.management.librarymanagement.service.MembershipNumberGeneratorService;
 import library.management.librarymanagement.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,10 +26,12 @@ public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MembershipNumberGeneratorService membershipNumberGeneratorService;
 
-    public UserServiceImplementation(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImplementation(UserRepository userRepository, PasswordEncoder passwordEncoder, MembershipNumberGeneratorService membershipNumberGeneratorService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.membershipNumberGeneratorService = membershipNumberGeneratorService;
     }
 
     @Override
@@ -75,6 +78,19 @@ public class UserServiceImplementation implements UserService {
     @Override
     public User addUser(UserDTO userInfo) {
         User user = new User(userInfo);
+        user.setPassword(passwordEncoder.encode(userInfo.getPassword()));
+
+        if (user.getRole() == UserRole.MEMBER && userInfo.getMember() != null) {
+            Member member = new Member(
+                    userInfo.getMember().getPhoneNumber(),
+                    userInfo.getMember().getAddress(),
+                    userInfo.getMember().getExpirationDate(),
+                    userInfo.getMember().getMaxLoans()
+            );
+            member.setMembershipNumber(membershipNumberGeneratorService.generateNumber());
+            user.setMember(member);
+            member.setUser(user);
+        }
 
         return userRepository.save(user);
     }

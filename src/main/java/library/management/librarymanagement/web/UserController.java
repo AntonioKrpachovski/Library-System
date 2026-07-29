@@ -4,6 +4,7 @@ import library.management.librarymanagement.model.Member;
 import library.management.librarymanagement.model.User;
 import library.management.librarymanagement.model.dtos.BookAddDTO;
 import library.management.librarymanagement.model.dtos.MemberDTO;
+import library.management.librarymanagement.model.dtos.MemberEditDTO;
 import library.management.librarymanagement.model.dtos.RegistrationDTO;
 import library.management.librarymanagement.model.dtos.UserDTO;
 import library.management.librarymanagement.repository.UserRepository;
@@ -82,6 +83,16 @@ public class UserController {
         userDTO.setEmail(user.getEmail());
         userDTO.setActiveStatus(user.getActiveStatus());
 
+        if (user.getMember() != null) {
+            MemberEditDTO memberEditDTO = new MemberEditDTO();
+            memberEditDTO.setPhoneNumber(user.getMember().getPhoneNumber());
+            memberEditDTO.setAddress(user.getMember().getAddress());
+            memberEditDTO.setExpirationDate(user.getMember().getExpirationDate());
+            memberEditDTO.setMaxLoans(user.getMember().getMaxLoans());
+            memberEditDTO.setStatus(user.getMember().getStatus());
+            userDTO.setMember(memberEditDTO);
+        }
+
         model.addAttribute("user", userDTO);
         model.addAttribute("userId", id);
 
@@ -93,10 +104,35 @@ public class UserController {
     @PostMapping("/users/edit/{id}")
     public String editUser(@ModelAttribute("user") UserDTO userDTO, RedirectAttributes redirectAttributes, @PathVariable Long id) {
 
-        userService.editUser(id, userDTO);
+        User user = userService.editUser(id, userDTO);
+
+        if (user.getMember() != null && userDTO.getMember() != null) {
+            memberService.editMember(user.getMember().getId(), userDTO.getMember());
+        }
 
         redirectAttributes.addFlashAttribute("successMessage", "User successfully updated");
 
         return "redirect:/users/" + id;
+    }
+
+
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @GetMapping("/users/new")
+    public String addUserForm(Model model) {
+
+        model.addAttribute("user", new UserDTO());
+
+        return "user-form";
+    }
+
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PostMapping("/users/new")
+    public String addUser(@ModelAttribute("user") UserDTO userDTO, RedirectAttributes redirectAttributes) {
+
+        userService.addUser(userDTO);
+
+        redirectAttributes.addFlashAttribute("successMessage", "User added successfully.");
+
+        return "redirect:/users";
     }
 }

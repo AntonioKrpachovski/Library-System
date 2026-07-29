@@ -70,7 +70,9 @@
             <div class="mb-3">
                 <label class="form-label">Phone Number</label>
                 <input class="form-control"
-                       type="number"
+                       type="text"
+                       inputmode="numeric"
+                       pattern="[0-9]*"
                        th:field="*{phoneNumber}"
                        required>
             </div>
