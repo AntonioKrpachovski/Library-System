@@ -1,6 +1,8 @@
 package library.management.librarymanagement.service;
 
 import library.management.librarymanagement.model.User;
+import library.management.librarymanagement.model.dtos.MemberDTO;
+import library.management.librarymanagement.model.dtos.RegistrationDTO;
 import library.management.librarymanagement.model.dtos.UserDTO;
 import library.management.librarymanagement.model.enums.UserRole;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,4 +16,6 @@ public interface UserService extends UserDetailsService {
     User addUser(UserDTO userInfo);
     User deleteUser(Long userId);
     User findUserById(Long userId);
+    User addUserWithMember(RegistrationDTO registrationDTO);
+    List<User> getAllMemberUsers();
 }

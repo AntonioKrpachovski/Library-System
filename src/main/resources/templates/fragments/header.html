@@ -8,20 +8,51 @@
 </head>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <header th:fragment="header" class="app-header mt-3">
-    <div class="container d-flex justify-content-between w-100 ">
-    <div class="d-flex align-items-center col-md-3 mb-2 mb-md-0"><a class="text-dark text-decoration-none fw-bold h4 align-items-center" th:href="@{/dashboard}">Library Management</a></div>
+    <div class="container d-flex justify-content-between w-100">
 
-        <div class="col-12 col-md-auto mb-2 justify-content-center mb-md-0" th:replace="~{fragments/nav :: nav}"></div>
-
-        <div class="col-md-3 text-end align-items-center d-flex justify-content-end">
-            <span class="role-badge me-2" th:text="${#authentication.principal.role}">ROLE</span>
-            <a th:href="@{/users/{id}(id=${#authentication.principal.id})}">
-                <span class="me-2" sec:authentication="name">username</span>
+        <div class="d-flex align-items-center col-md-3 mb-2 mb-md-0">
+            <a class="text-dark text-decoration-none fw-bold h4 align-items-center"
+               th:href="@{/dashboard}">
+                Library Management
             </a>
-            <form th:action="@{/logout}" method="post" class="logout-form d-inline-block">
-                <button type="submit" class="btn btn-outline-danger">Logout</button>
-            </form>
         </div>
+
+        <div class="col-12 col-md-auto mb-2 justify-content-center mb-md-0"
+             th:replace="~{fragments/nav :: nav}">
+        </div>
+
+        <div sec:authorize="isAuthenticated()"
+             class="col-md-3 text-end align-items-center d-flex justify-content-end">
+
+            <span class="role-badge me-2"
+                  th:text="${#authentication.principal.role}">
+                ROLE
+            </span>
+
+            <a th:href="@{/users/{id}(id=${#authentication.principal.id})}">
+                <span class="me-2" sec:authentication="name">
+                    username
+                </span>
+            </a>
+
+            <form th:action="@{/logout}" method="post" class="logout-form d-inline-block">
+                <button type="submit" class="btn btn-outline-danger">
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+        <div sec:authorize="isAnonymous()"
+             class="col-md-3 text-end">
+            <a class="btn btn-outline-primary" th:href="@{/login}">
+                Login
+            </a>
+            <a class="btn btn-primary" th:href="@{/register}">
+                Register
+            </a>
+        </div>
+
     </div>
     <hr>
 </header>

@@ -48,6 +48,14 @@
                     </button>
                 </a>
 
+                <form th:action="@{/members/suspend/{id}(id=${user.id})}"
+                      method="post"
+                      sec:authorize="hasRole('ADMINISTRATOR')">
+                    <button type="submit" class="btn btn-outline-info">
+                        Deactivate
+                    </button>
+                </form>
+
             </li>
         </ul>
 

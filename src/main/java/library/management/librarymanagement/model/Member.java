@@ -3,6 +3,7 @@ package library.management.librarymanagement.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import library.management.librarymanagement.model.dtos.MemberDTO;
+import library.management.librarymanagement.model.dtos.RegistrationDTO;
 import library.management.librarymanagement.model.enums.MembershipStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,6 +49,15 @@ public class Member {
         this.registrationDate = LocalDateTime.now();
         this.expirationDate = memberInfo.getExpirationDate();
         this.maxLoans = memberInfo.getMaxLoans();
+        this.status = MembershipStatus.ACTIVE;
+    }
+
+    public Member(RegistrationDTO registration) {
+        this.phoneNumber = registration.getPhoneNumber();
+        this.address = registration.getAddress();
+        this.registrationDate = LocalDateTime.now();
+        this.expirationDate = registration.getExpirationDate();
+        this.maxLoans = registration.getMaxLoans();
         this.status = MembershipStatus.ACTIVE;
     }
 }

@@ -57,10 +57,6 @@ public class BooksController {
         return "books";
     }
 
-    @GetMapping("/members")
-    public String membersView(){
-        return "members";
-    }
 
     @GetMapping("/loans")
     public String loansView(){

@@ -1,6 +1,9 @@
 package library.management.librarymanagement.service.implementation;
 
+import library.management.librarymanagement.model.Member;
 import library.management.librarymanagement.model.User;
+import library.management.librarymanagement.model.dtos.MemberDTO;
+import library.management.librarymanagement.model.dtos.RegistrationDTO;
 import library.management.librarymanagement.model.dtos.UserDTO;
 import library.management.librarymanagement.model.enums.UserRole;
 import library.management.librarymanagement.model.exceptions.InvalidArgumentsException;
@@ -86,8 +89,26 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public User addUserWithMember(RegistrationDTO registration) {
+
+        User user = new User(registration);
+        user.setPassword(passwordEncoder.encode(registration.getPassword()));
+
+        Member member = new Member(registration);
+
+        user.setMember(member);
+        member.setUser(user);
+
+        return userRepository.save(user);
+    }
+
+    @Override
     @PreAuthorize("hasRole('ADMINISTRATOR') or #userId == authentication.principal.id")
     public User findUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow();
+    }
+
+    public List<User> getAllMemberUsers() {
+        return userRepository.findByMemberIsNotNull();
     }
 }

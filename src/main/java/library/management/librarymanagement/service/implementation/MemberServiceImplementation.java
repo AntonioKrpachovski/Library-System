@@ -72,4 +72,17 @@ public class MemberServiceImplementation implements MemberService {
     public List<BookCopy> viewLoans(Long memberId) {
         return null;
     }
+
+    @Override
+    public Member addMember(Member member) {
+        return memberRepository.save(member);
+    }
+
+    @Override
+    public Member deactivateMember(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        member.setStatus(MembershipStatus.EXPIRED);
+
+        return memberRepository.save(member);
+    }
 }

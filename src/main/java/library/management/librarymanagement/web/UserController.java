@@ -1,9 +1,13 @@
 package library.management.librarymanagement.web;
 
+import library.management.librarymanagement.model.Member;
 import library.management.librarymanagement.model.User;
 import library.management.librarymanagement.model.dtos.BookAddDTO;
+import library.management.librarymanagement.model.dtos.MemberDTO;
+import library.management.librarymanagement.model.dtos.RegistrationDTO;
 import library.management.librarymanagement.model.dtos.UserDTO;
 import library.management.librarymanagement.repository.UserRepository;
+import library.management.librarymanagement.service.MemberService;
 import library.management.librarymanagement.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UserController {
 
     private final UserService userService;
+    private final MemberService memberService;
 
     @PreAuthorize("hasRole('ADMINISTRATOR') or #id == authentication.principal.id")
     @GetMapping("/users/{id}")
@@ -39,22 +44,27 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/users/new")
-    public String addUserForm(Model model){
 
-        model.addAttribute("user", new UserDTO());
+    @GetMapping("/register")
+    public String registerUserForm(Model model) {
 
-        return "user-form";
+        model.addAttribute("registration", new RegistrationDTO());
+
+        return "register";
     }
 
-    @PostMapping("/users/new")
-    public String addUser(@ModelAttribute("user") UserDTO userDTO, RedirectAttributes redirectAttributes){
+    @PostMapping("/register")
+    public String registerUser(
+            @ModelAttribute("registration") RegistrationDTO registration,
+            RedirectAttributes redirectAttributes) {
 
-        User user = userService.addUser(userDTO);
+        userService.addUserWithMember(registration);
 
-        redirectAttributes.addFlashAttribute("successMessage", "User added successfully.");
+        redirectAttributes.addFlashAttribute(
+                "successMessage",
+                "User added successfully.");
 
-        return "redirect:/dashboard";
+        return "redirect:/login";
     }
 
 

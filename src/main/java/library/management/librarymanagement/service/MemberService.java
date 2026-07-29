@@ -17,4 +17,6 @@ public interface MemberService {
     Member reactivateMember(Long memberId);
     Member renewMember(Long memberId);
     List<BookCopy> viewLoans(Long memberId);
+    Member addMember(Member member);
+    Member deactivateMember(Long memberId);
 }

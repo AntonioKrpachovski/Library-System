@@ -42,6 +42,45 @@
             <span th:text="${user.activeStatus != null && user.activeStatus ? 'Yes' : 'No'}"></span>
         </p>
 
+        <div th:if="${user.member != null}">
+            <h3>Membership Information</h3>
+
+            <p>
+                <strong>Membership Number:</strong>
+                <span th:text="${user.member.membershipNumber}"></span>
+            </p>
+
+            <p>
+                <strong>Phone:</strong>
+                <span th:text="${user.member.phoneNumber}"></span>
+            </p>
+
+            <p>
+                <strong>Address:</strong>
+                <span th:text="${user.member.address}"></span>
+            </p>
+
+            <p>
+                <strong>Registration Date:</strong>
+                <span th:text="${#temporals.format(user.member.registrationDate, 'dd/MM/yyyy HH:mm')}"></span>
+            </p>
+
+            <p>
+                <strong>Expiration Date:</strong>
+                <span th:text="${#temporals.format(user.member.expirationDate, 'dd/MM/yyyy')}"></span>
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                <span th:text="${user.member.status}"></span>
+            </p>
+
+            <p>
+                <strong>Maximum Loans:</strong>
+                <span th:text="${user.member.maxLoans}"></span>
+            </p>
+        </div>
+
         <a th:href="@{/users/edit/{id}(id=${user.id})}"
            sec:authorize="hasRole('ADMINISTRATOR') or #authentication.principal.id == #vars.user.id">
             <button type="button" class="btn btn-primary">
@@ -49,44 +88,6 @@
             </button>
         </a>
 
-    </div>
-    <div th:if="${user.member != null}">
-        <h3>Membership Information</h3>
-
-        <p>
-            <strong>Membership Number:</strong>
-            <span th:text="${user.member.membershipNumber}"></span>
-        </p>
-
-        <p>
-            <strong>Phone:</strong>
-            <span th:text="${user.member.phoneNumber}"></span>
-        </p>
-
-        <p>
-            <strong>Address:</strong>
-            <span th:text="${user.member.address}"></span>
-        </p>
-
-        <p>
-            <strong>Registration Date:</strong>
-            <span th:text="${#temporals.format(user.member.registrationDate, 'dd/MM/yyyy HH:mm')}"></span>
-        </p>
-
-        <p>
-            <strong>Expiration Date:</strong>
-            <span th:text="${#temporals.format(user.member.expirationDate, 'dd/MM/yyyy')}"></span>
-        </p>
-
-        <p>
-            <strong>Status:</strong>
-            <span th:text="${user.member.status}"></span>
-        </p>
-
-        <p>
-            <strong>Maximum Loans:</strong>
-            <span th:text="${user.member.maxLoans}"></span>
-        </p>
     </div>
 </main>
 

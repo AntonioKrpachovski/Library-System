@@ -1,6 +1,7 @@
 package library.management.librarymanagement.model;
 
 import jakarta.persistence.*;
+import library.management.librarymanagement.model.dtos.RegistrationDTO;
 import library.management.librarymanagement.model.dtos.UserDTO;
 import library.management.librarymanagement.model.enums.UserRole;
 import lombok.AllArgsConstructor;
@@ -31,8 +32,7 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
-    @OneToOne(mappedBy = "user")
-    private Member member;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)    private Member member;
     @Column(unique = true, nullable = false)
     private String email;
     @Enumerated(value = EnumType.STRING)
@@ -65,6 +65,19 @@ public class User implements UserDetails {
         this.email = userInfo.getEmail();
         this.role = UserRole.MEMBER;
         this.activeStatus = userInfo.getActiveStatus();
+        this.creationDate = LocalDateTime.now();
+    }
+
+    public User(RegistrationDTO registration) {
+        this.username = registration.getUsername();
+        this.password = registration.getPassword();
+        this.firstName = registration.getFirstName();
+        this.lastName = registration.getLastName();
+        this.email = registration.getEmail();
+        this.role = UserRole.MEMBER;
+        this.activeStatus = registration.getActiveStatus() != null
+                ? registration.getActiveStatus()
+                : true;
         this.creationDate = LocalDateTime.now();
     }
 
