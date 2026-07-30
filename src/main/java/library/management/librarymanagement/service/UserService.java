@@ -18,4 +18,5 @@ public interface UserService extends UserDetailsService {
     User findUserById(Long userId);
     User addUserWithMember(RegistrationDTO registrationDTO);
     List<User> getAllMemberUsers();
+    List<User> searchMembers(String searchMembershipNumber, String searchFirstName, String searchLastName, String searchEmail, String searchPhoneNumber);
 }

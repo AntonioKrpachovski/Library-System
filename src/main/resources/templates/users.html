@@ -18,6 +18,59 @@
 
     <div th:replace="~{fragments/messages :: messages}"></div>
 
+    <div class="mb-3"><!--th:if="${isMembersPage}"-->
+
+        <form th:action="@{/members}" method="get" class="row g-2">
+
+            <div class="col">
+                <input type="text"
+                       name="searchMembershipNumber"
+                       placeholder="Membership Number"
+                       class="form-control"
+                       th:value="${param.searchMembershipNumber}">
+            </div>
+
+            <div class="col">
+                <input type="text"
+                       name="searchFirstName"
+                       placeholder="First Name"
+                       class="form-control"
+                       th:value="${param.searchFirstName}">
+            </div>
+
+            <div class="col">
+                <input type="text"
+                       name="searchLastName"
+                       placeholder="Last Name"
+                       class="form-control"
+                       th:value="${param.searchLastName}">
+            </div>
+
+            <div class="col">
+                <input type="text"
+                       name="searchEmail"
+                       placeholder="Email"
+                       class="form-control"
+                       th:value="${param.searchEmail}">
+            </div>
+
+            <div class="col">
+                <input type="text"
+                       name="searchPhoneNumber"
+                       placeholder="Phone"
+                       class="form-control"
+                       th:value="${param.searchPhoneNumber}">
+            </div>
+
+            <div class="col-auto">
+                <button class="btn btn-primary" type="submit">
+                    Search
+                </button>
+            </div>
+
+        </form>
+
+    </div>
     <div>
 
         <a th:href="@{/users/new}" sec:authorize="hasRole('ADMINISTRATOR')">
@@ -50,9 +103,28 @@
 
                 <form th:action="@{/members/deactivate/{id}(id=${user.id})}"
                       method="post"
-                      sec:authorize="hasRole('ADMINISTRATOR')">
+                      sec:authorize="hasRole('ADMINISTRATOR')"
+                      class="d-inline-block">
                     <button type="submit" class="btn btn-outline-info">
                         Deactivate
+                    </button>
+                </form>
+
+                <form th:action="@{/members/suspend/{id}(id=${user.id})}"
+                      method="post"
+                      sec:authorize="hasRole('ADMINISTRATOR')"
+                      class="d-inline-block">
+                    <button type="submit" class="btn btn-outline-info">
+                        Suspend
+                    </button>
+                </form>
+
+                <form th:action="@{/members/reactivate/{id}(id=${user.id})}"
+                      method="post"
+                      sec:authorize="hasRole('ADMINISTRATOR')"
+                      class="d-inline-block">
+                    <button type="submit" class="btn btn-outline-info">
+                        Reactivate
                     </button>
                 </form>
 

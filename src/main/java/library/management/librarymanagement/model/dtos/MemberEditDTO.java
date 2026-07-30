@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class MemberEditDTO {
-    private long phoneNumber;
+    private String phoneNumber;
     private String address;
     private LocalDateTime expirationDate;
     private int maxLoans;

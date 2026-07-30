@@ -16,8 +16,12 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class MembershipNumberGenerator {
     @Id
+    @Column(name = "membership_year")
     private Integer year;
+
+    @Column(name = "last_number")
     private Integer lastNumber;
 }

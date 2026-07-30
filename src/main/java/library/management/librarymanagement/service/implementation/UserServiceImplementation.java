@@ -127,4 +127,9 @@ public class UserServiceImplementation implements UserService {
     public List<User> getAllMemberUsers() {
         return userRepository.findByMemberIsNotNull();
     }
+
+    @Override
+    public List<User> searchMembers(String searchMembershipNumber, String searchFirstName, String searchLastName, String searchEmail, String searchPhoneNumber) {
+        return userRepository.SearchUsers(searchMembershipNumber, searchFirstName, searchLastName, searchEmail, searchPhoneNumber);
+    }
 }

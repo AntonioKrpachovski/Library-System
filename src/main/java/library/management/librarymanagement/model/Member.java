@@ -25,7 +25,7 @@ public class Member {
     private User user;
     @Column(unique = true)
     private String membershipNumber;
-    private long phoneNumber;
+    private String phoneNumber;
     private String address;
     private LocalDateTime registrationDate;
     private LocalDateTime expirationDate;
@@ -34,7 +34,7 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Loan> loans;
 
-    public Member(long phoneNumber, String address, LocalDateTime expirationDate, int maxLoans) {
+    public Member(String phoneNumber, String address, LocalDateTime expirationDate, int maxLoans) {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.registrationDate = LocalDateTime.now();
