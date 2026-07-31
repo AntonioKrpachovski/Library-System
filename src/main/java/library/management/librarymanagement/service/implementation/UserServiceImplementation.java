@@ -12,6 +12,8 @@ import library.management.librarymanagement.model.exceptions.UsernameAlreadyExis
 import library.management.librarymanagement.repository.UserRepository;
 import library.management.librarymanagement.service.MembershipNumberGeneratorService;
 import library.management.librarymanagement.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -59,8 +61,8 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Page<User> getAllUsersPageable(Pageable pageable) {
+        return userRepository.findAllPageable(pageable);
     }
 
     @Override
@@ -129,7 +131,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public List<User> searchMembers(String searchMembershipNumber, String searchFirstName, String searchLastName, String searchEmail, String searchPhoneNumber) {
-        return userRepository.SearchUsers(searchMembershipNumber, searchFirstName, searchLastName, searchEmail, searchPhoneNumber);
+    public Page<User> searchMembers(String searchMembershipNumber, String searchFirstName, String searchLastName, String searchEmail, String searchPhoneNumber, Pageable pageable) {
+        return userRepository.searchUsers(searchMembershipNumber, searchFirstName, searchLastName, searchEmail, searchPhoneNumber, pageable);
     }
 }

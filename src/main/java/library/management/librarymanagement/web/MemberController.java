@@ -5,6 +5,8 @@ import library.management.librarymanagement.model.User;
 import library.management.librarymanagement.service.MemberService;
 import library.management.librarymanagement.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,9 +27,13 @@ public class MemberController {
                               @RequestParam(required = false) String searchFirstName,
                               @RequestParam(required = false) String searchLastName,
                               @RequestParam(required = false) String searchEmail,
-                              @RequestParam(required = false) String searchPhoneNumber){
+                              @RequestParam(required = false) String searchPhoneNumber,
+                              @PageableDefault(size = 10, sort = "lastName") Pageable pageable){
 
-        model.addAttribute("users", userService.searchMembers(searchMembershipNumber, searchFirstName, searchLastName, searchEmail, searchPhoneNumber));
+        model.addAttribute("users", userService.searchMembers(searchMembershipNumber, searchFirstName, searchLastName, searchEmail, searchPhoneNumber, pageable));
+        model.addAttribute("isMemberPage", true);
+
+
         return "users";
     }
 

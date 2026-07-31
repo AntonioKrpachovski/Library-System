@@ -63,11 +63,6 @@ public class BooksController {
         return "loans";
     }
 
-    @GetMapping("/administration")
-    public String administrationView(){
-        return "administration";
-    }
-
     @GetMapping("/books/{id}")
     public String bookDetailsView(@PathVariable Long id, Model model){
 

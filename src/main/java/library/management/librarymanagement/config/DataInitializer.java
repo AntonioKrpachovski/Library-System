@@ -1,9 +1,6 @@
 package library.management.librarymanagement.config;
 
-import library.management.librarymanagement.model.Author;
-import library.management.librarymanagement.model.Book;
-import library.management.librarymanagement.model.Category;
-import library.management.librarymanagement.model.User;
+import library.management.librarymanagement.model.*;
 import library.management.librarymanagement.model.enums.BookStatus;
 import library.management.librarymanagement.model.enums.UserRole;
 import library.management.librarymanagement.repository.AuthorRepository;
@@ -59,7 +56,8 @@ public class DataInitializer implements CommandLineRunner {
                 "email@email.com",
                 UserRole.MEMBER,
                 true,
-                LocalDateTime.now()
+                LocalDateTime.now(),
+                new Member("String phoneNumber", "String address", LocalDateTime.now(), 6)
         );
 
         userRepository.save(user);

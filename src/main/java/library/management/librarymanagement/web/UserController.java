@@ -11,6 +11,8 @@ import library.management.librarymanagement.repository.UserRepository;
 import library.management.librarymanagement.service.MemberService;
 import library.management.librarymanagement.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,11 +39,12 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
-    @GetMapping("/users")
-    public String usersView(Model model){
+    @GetMapping("/administration")
+    public String usersView(Model model,
+                            @PageableDefault(size = 10, sort = "lastName") Pageable pageable){
 
-        model.addAttribute("users",userService.getAllUsers());
-
+        model.addAttribute("users",userService.getAllUsersPageable(pageable));
+        model.addAttribute("isMemberPage", false);
         return "users";
     }
 
@@ -133,6 +136,6 @@ public class UserController {
 
         redirectAttributes.addFlashAttribute("successMessage", "User added successfully.");
 
-        return "redirect:/users";
+        return "redirect:/members";
     }
 }

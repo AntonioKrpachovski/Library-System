@@ -57,6 +57,18 @@ public class User implements UserDetails {
         this.creationDate = LocalDateTime.now();
     }
 
+    public User(String username, String password, String first_name, String last_name, String email, UserRole role, Boolean active_status, LocalDateTime creation_date, Member member) {
+        this.username = username;
+        this.password = password;
+        this.firstName = first_name;
+        this.lastName = last_name;
+        this.email = email;
+        this.role = role;
+        this.activeStatus = active_status;
+        this.creationDate = LocalDateTime.now();
+        this.member = member;
+    }
+
     public User(UserDTO userInfo) {
         this.username = userInfo.getUsername();
         this.password = userInfo.getPassword();

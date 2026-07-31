@@ -1,6 +1,8 @@
 package library.management.librarymanagement.repository;
 
 import library.management.librarymanagement.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +20,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("""
     SELECT u
     FROM User u
+    """)
+    Page<User> findAllPageable(Pageable pageable);
+    @Query("""
+    SELECT u
+    FROM User u
     WHERE u.member IS NOT NULL
     AND (:searchMembershipNumber IS NULL OR LOWER(u.member.membershipNumber) LIKE LOWER(CONCAT('%',:searchMembershipNumber,'%')))
     AND (:searchFirstName IS NULL OR LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchFirstName, '%')))
@@ -25,7 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     AND (:searchEmail IS NULL OR LOWER(u.email) LIKE LOWER(CONCAT('%', :searchEmail, '%')))
     AND (:searchPhoneNumber IS NULL OR LOWER(u.member.phoneNumber) LIKE LOWER(CONCAT('%', :searchPhoneNumber, '%')))
     """)
-    List<User> SearchUsers(String searchMembershipNumber, String searchFirstName, String searchLastName, String searchEmail, String searchPhoneNumber);
+    Page<User> searchUsers(String searchMembershipNumber, String searchFirstName, String searchLastName, String searchEmail, String searchPhoneNumber, Pageable pageable);
 }
 
 
