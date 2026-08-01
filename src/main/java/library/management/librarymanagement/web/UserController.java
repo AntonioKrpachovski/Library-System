@@ -1,5 +1,7 @@
 package library.management.librarymanagement.web;
 
+import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
 import library.management.librarymanagement.model.Member;
 import library.management.librarymanagement.model.User;
 import library.management.librarymanagement.model.dtos.BookAddDTO;
@@ -16,6 +18,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,8 +63,13 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(
-            @ModelAttribute("registration") RegistrationDTO registration,
+            @Valid @ModelAttribute("registration") RegistrationDTO registration,
+            BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
 
         userService.addUserWithMember(registration);
 
@@ -105,7 +114,12 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR') or #id == authentication.principal.id")
     @PostMapping("/users/edit/{id}")
-    public String editUser(@ModelAttribute("user") UserDTO userDTO, RedirectAttributes redirectAttributes, @PathVariable Long id) {
+    public String editUser(@Valid @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, @PathVariable Long id) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("userId", id);
+            return "user-form";
+        }
 
         User user = userService.editUser(id, userDTO);
 
@@ -130,7 +144,11 @@ public class UserController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/users/new")
-    public String addUser(@ModelAttribute("user") UserDTO userDTO, RedirectAttributes redirectAttributes) {
+    public String addUser(@Validated({Default.class, UserDTO.OnCreate.class}) @ModelAttribute("user") UserDTO userDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            return "user-form";
+        }
 
         userService.addUser(userDTO);
 

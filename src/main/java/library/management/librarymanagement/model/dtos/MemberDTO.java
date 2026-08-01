@@ -1,6 +1,6 @@
 package library.management.librarymanagement.model.dtos;
 
-import library.management.librarymanagement.model.enums.MembershipStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class MemberDTO {
     private String phoneNumber;
     private String address;
+    @NotNull
     private LocalDateTime expirationDate;
     private int maxLoans;
 }

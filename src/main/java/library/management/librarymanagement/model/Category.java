@@ -6,16 +6,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "category")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    @Column(unique = true, nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
+    @Column(name = "description")
     private String description;
+    @Column(name = "status")
     private boolean status;
 
     public Category(String name, String description, boolean status) {

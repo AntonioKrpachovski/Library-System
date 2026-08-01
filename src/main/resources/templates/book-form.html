@@ -14,11 +14,13 @@
     <div>
         <h1 th:text="${bookId} != null ? 'Edit Book' : 'Add Book'">Book Form</h1>
 
-        <form th:action="${bookId} != null ? @{/books/{id}/edit(id=${bookId})} : @{/books/new}"
+        <form th:with="actionUrl=${bookId != null ? '/books/' + bookId + '/edit' : '/books/new'}"
+              th:action="@{${actionUrl}}"
               th:object="${book}" method="post">
             <p>
                 <label>Title:</label>
                 <input type="text" th:field="*{title}" />
+                <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
             </p>
             <p>
                 <label>Description:</label>
@@ -31,10 +33,12 @@
             <p>
                 <label>Publication Year:</label>
                 <input type="text" th:field="*{publicationYear}" placeholder="e.g. 1997" />
+                <span class="text-danger" th:if="${#fields.hasErrors('publicationYear')}" th:errors="*{publicationYear}"></span>
             </p>
             <p>
                 <label>Language:</label>
                 <input type="text" th:field="*{language}" />
+                <span class="text-danger" th:if="${#fields.hasErrors('language')}" th:errors="*{language}"></span>
             </p>
             <p>
                 <label>Number of Pages:</label>
@@ -46,6 +50,7 @@
                     <option value="">-- Select category --</option>
                     <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}"></span>
             </p>
             <p>
                 <label>Authors:</label><br/>

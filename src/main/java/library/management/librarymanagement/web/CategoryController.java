@@ -1,5 +1,6 @@
 package library.management.librarymanagement.web;
 
+import jakarta.validation.Valid;
 import library.management.librarymanagement.model.Category;
 import library.management.librarymanagement.model.dtos.CategoryDTO;
 import library.management.librarymanagement.service.AuthorService;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,7 +55,11 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/categories/new")
-    public String addCategory(@ModelAttribute("category") CategoryDTO categoryDTO, RedirectAttributes redirectAttributes){
+    public String addCategory(@Valid @ModelAttribute("category") CategoryDTO categoryDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+            return "category-form";
+        }
 
         categoryService.addCategory(categoryDTO);
 
@@ -81,7 +87,12 @@ public class CategoryController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/categories/{id}/edit")
-    public String editCategory(@PathVariable Long id, @ModelAttribute("category") CategoryDTO categoryDTO, RedirectAttributes redirectAttributes){
+    public String editCategory(@PathVariable Long id, @Valid @ModelAttribute("category") CategoryDTO categoryDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categoryId", id);
+            return "category-form";
+        }
 
         categoryService.editCategory(id, categoryDTO);
 

@@ -83,7 +83,6 @@ public class BookServiceImplementation implements BookService {
         book.setNumberOfPages(bookInfo.getNumberOfPages());
         book.setStatus(bookInfo.getStatus());
         book.setActive(bookInfo.isActive());
-        book.setLastUpdateDate(LocalDateTime.now());
 
         if (bookInfo.getCategoryId() != null) {
             book.setCategory(categoryService.getById(bookInfo.getCategoryId()).orElse(book.getCategory()));

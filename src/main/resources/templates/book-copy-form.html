@@ -15,17 +15,20 @@
         <h1 th:text="${copyId} != null ? 'Edit Book Copy' : 'Add Book Copy'">Book Copy Form</h1>
         <p>Book: <span th:text="${book.title}">Book Title</span></p>
 
-        <form th:action="${copyId} != null ? @{/book-copies/{id}/edit(id=${copyId})} : @{/books/{id}/copies/new(id=${book.id})}"
+        <form th:with="actionUrl=${copyId != null ? '/book-copies/' + copyId + '/edit' : '/books/' + book.id + '/copies/new'}"
+              th:action="@{${actionUrl}}"
               th:object="${copy}" method="post">
             <p>
                 <label>Inventory Number:</label>
                 <input type="text" th:field="*{inventoryNumber}" />
+                <span class="text-danger" th:if="${#fields.hasErrors('inventoryNumber')}" th:errors="*{inventoryNumber}"></span>
             </p>
             <p>
                 <label>Status:</label>
                 <select th:field="*{currentStatus}">
                     <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
                 </select>
+                <span class="text-danger" th:if="${#fields.hasErrors('currentStatus')}" th:errors="*{currentStatus}"></span>
             </p>
             <p>
                 <label>Shelf Location:</label>

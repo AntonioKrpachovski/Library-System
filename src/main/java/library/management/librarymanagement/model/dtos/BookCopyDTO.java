@@ -1,14 +1,17 @@
 package library.management.librarymanagement.model.dtos;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import library.management.librarymanagement.model.enums.BookStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 public class BookCopyDTO {
+    @NotBlank
     private String inventoryNumber;
+    @NotNull
     private BookStatus currentStatus;
     private String shelfLocation;
     private LocalDateTime acquisitionDate;

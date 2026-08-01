@@ -14,11 +14,13 @@
     <div>
         <h1 th:text="${categoryId} != null ? 'Edit Category' : 'Add Category'">Category Form</h1>
 
-        <form th:action="${categoryId} != null ? @{/categories/{id}/edit(id=${categoryId})} : @{/categories/new}"
+        <form th:with="actionUrl=${categoryId != null ? '/categories/' + categoryId + '/edit' : '/categories/new'}"
+              th:action="@{${actionUrl}}"
               th:object="${category}" method="post">
             <p>
                 <label>Name:</label>
                 <input type="text" th:field="*{name}" />
+                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             </p>
             <p>
                 <label>Description:</label>

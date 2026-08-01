@@ -1,5 +1,6 @@
 package library.management.librarymanagement.web;
 
+import jakarta.validation.Valid;
 import library.management.librarymanagement.model.Author;
 import library.management.librarymanagement.model.Book;
 import library.management.librarymanagement.model.dtos.BookAddDTO;
@@ -11,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -85,7 +87,14 @@ public class BooksController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/books/new")
-    public String addBook(@ModelAttribute("book") BookAddDTO bookDTO, RedirectAttributes redirectAttributes){
+    public String addBook(@Valid @ModelAttribute("book") BookAddDTO bookDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("authors", authorService.getAllAuthors());
+            model.addAttribute("statuses", BookStatus.values());
+            return "book-form";
+        }
 
         Book book = bookService.addBook(bookDTO);
 
@@ -123,7 +132,15 @@ public class BooksController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/books/{id}/edit")
-    public String editBook(@PathVariable Long id, @ModelAttribute("book") BookAddDTO bookDTO, RedirectAttributes redirectAttributes){
+    public String editBook(@PathVariable Long id, @Valid @ModelAttribute("book") BookAddDTO bookDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("bookId", id);
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("authors", authorService.getAllAuthors());
+            model.addAttribute("statuses", BookStatus.values());
+            return "book-form";
+        }
 
         bookService.editBook(id, bookDTO);
 

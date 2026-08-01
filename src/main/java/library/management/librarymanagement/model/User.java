@@ -11,11 +11,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,46 +23,55 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    @Column(unique = true, nullable = false)
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
+    @Column(name = "password")
     private String password;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)    private Member member;
-    @Column(unique = true, nullable = false)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Member member;
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "role")
     private UserRole role;
+    @Column(name = "active_status")
     private Boolean activeStatus;
+    @Column(name = "creation_date")
     private LocalDateTime creationDate;
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
 
-
+    @Column(name = "is_account_non_expired")
     private boolean isAccountNonExpired = true;
+    @Column(name = "is_account_non_locked")
     private boolean isAccountNonLocked = true;
+    @Column(name = "is_credentials_non_expired")
     private boolean isCredentialsNonExpired = true;
 
-
-    public User(String username, String password, String first_name, String last_name, String email, UserRole role, Boolean active_status, LocalDateTime creation_date) {
+    public User(String username, String password, String firstName, String lastName, String email, UserRole role, Boolean activeStatus, LocalDateTime creationDate) {
         this.username = username;
         this.password = password;
-        this.firstName = first_name;
-        this.lastName = last_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.role = role;
-        this.activeStatus = active_status;
-        this.creationDate = LocalDateTime.now();
+        this.activeStatus = activeStatus;
     }
 
-    public User(String username, String password, String first_name, String last_name, String email, UserRole role, Boolean active_status, LocalDateTime creation_date, Member member) {
+    public User(String username, String password, String firstName, String lastName, String email, UserRole role, Boolean activeStatus, LocalDateTime creationDate, Member member) {
         this.username = username;
         this.password = password;
-        this.firstName = first_name;
-        this.lastName = last_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.role = role;
-        this.activeStatus = active_status;
-        this.creationDate = LocalDateTime.now();
+        this.activeStatus = activeStatus;
         this.member = member;
     }
 
@@ -77,7 +83,6 @@ public class User implements UserDetails {
         this.email = userInfo.getEmail();
         this.role = userInfo.getRole() != null ? userInfo.getRole() : UserRole.MEMBER;
         this.activeStatus = userInfo.getActiveStatus();
-        this.creationDate = LocalDateTime.now();
     }
 
     public User(RegistrationDTO registration) {
@@ -90,7 +95,17 @@ public class User implements UserDetails {
         this.activeStatus = registration.getActiveStatus() != null
                 ? registration.getActiveStatus()
                 : true;
-        this.creationDate = LocalDateTime.now();
+    }
+
+    @PrePersist
+    public void onCreate() {
+        creationDate = LocalDateTime.now();
+        updateDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        updateDate = LocalDateTime.now();
     }
 
     @Override

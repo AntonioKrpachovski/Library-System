@@ -20,16 +20,24 @@ import java.util.List;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
-    @Column(unique = true)
+    @Column(name = "isbn", unique = true)
     private String ISBN;
+    @Column(name = "title")
     private String title;
+    @Column(name = "description")
     private String description;
+    @Column(name = "publisher")
     private String publisher;
+    @Column(name = "publication_year")
     private Year publicationYear;
+    @Column(name = "language")
     private String language;
+    @Column(name = "number_of_pages")
     private Long numberOfPages;
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
     private Category category;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -39,9 +47,13 @@ public class Book {
     )
     private List<Author> authors = new ArrayList<>();
     @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
     private BookStatus status;
+    @Column(name = "active")
     private Boolean active;
+    @Column(name = "creation_date")
     private LocalDateTime creationDate;
+    @Column(name = "last_update_date")
     private LocalDateTime lastUpdateDate;
 
     public Book(String ISBN, String title, String description, String publisher, Year publicationYear, String language, Long numberOfPages, Category category, List<Author> authors, BookStatus status, LocalDateTime creationDate, LocalDateTime lastUpdateDate, boolean active) {
@@ -56,8 +68,6 @@ public class Book {
         this.authors = authors;
         this.status = status;
         this.active = active;
-        this.creationDate = creationDate;
-        this.lastUpdateDate = lastUpdateDate;
     }
 
     public Book(BookAddDTO bookInfo, String ISBN, LocalDateTime lastUpdateDate, LocalDateTime creationDate, List<Author> authors) {
@@ -72,8 +82,17 @@ public class Book {
         this.category = bookInfo.getCategory();
         this.status = bookInfo.getStatus();
         this.active = bookInfo.isActive();
-        this.lastUpdateDate = lastUpdateDate;
-        this.creationDate = creationDate;
         this.authors = authors;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        creationDate = LocalDateTime.now();
+        lastUpdateDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        lastUpdateDate = LocalDateTime.now();
     }
 }

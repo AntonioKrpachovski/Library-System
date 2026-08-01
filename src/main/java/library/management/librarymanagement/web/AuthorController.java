@@ -1,5 +1,6 @@
 package library.management.librarymanagement.web;
 
+import jakarta.validation.Valid;
 import library.management.librarymanagement.model.Author;
 import library.management.librarymanagement.model.dtos.AuthorDTO;
 import library.management.librarymanagement.service.AuthorService;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,7 +62,11 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/authors/new")
-    public String addAuthor(@ModelAttribute("author") AuthorDTO authorDTO, RedirectAttributes redirectAttributes){
+    public String addAuthor(@Valid @ModelAttribute("author") AuthorDTO authorDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+            return "author-form";
+        }
 
         Author author = authorService.addAuthor(authorDTO);
 
@@ -89,7 +95,12 @@ public class AuthorController {
 
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping("/authors/{id}/edit")
-    public String editAuthor(@PathVariable Long id, @ModelAttribute("author") AuthorDTO authorDTO, RedirectAttributes redirectAttributes){
+    public String editAuthor(@PathVariable Long id, @Valid @ModelAttribute("author") AuthorDTO authorDTO, BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes){
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("authorId", id);
+            return "author-form";
+        }
 
         authorService.editAuthor(id, authorDTO);
 

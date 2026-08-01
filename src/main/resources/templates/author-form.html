@@ -13,15 +13,18 @@
     <div>
         <h1 th:text="${authorId} != null ? 'Edit Author' : 'Add Author'">Author Form</h1>
 
-        <form th:action="${authorId} != null ? @{/authors/{id}/edit(id=${authorId})} : @{/authors/new}"
+        <form th:with="actionUrl=${authorId != null ? '/authors/' + authorId + '/edit' : '/authors/new'}"
+              th:action="@{${actionUrl}}"
               th:object="${author}" method="post">
             <p>
                 <label>First Name:</label>
                 <input type="text" th:field="*{firstName}" />
+                <span class="text-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
             </p>
             <p>
                 <label>Last Name:</label>
                 <input type="text" th:field="*{lastName}" />
+                <span class="text-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
             </p>
             <p>
                 <label>Biography:</label>
